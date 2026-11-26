@@ -42,6 +42,17 @@ cd avalanche && npm ci && bash run-tests.sh      # 10 cases, Avalanche C-Chain
 The fixtures point at third-party payments and are labeled as such. They test the verifiers;
 they are not usage of this project.
 
+## Testnet keys
+
+```bash
+bash scripts/new-testnet-keys.sh          # Solana devnet + Avalanche Fuji keys in ~/.nirium-keys (mode 600)
+bash scripts/solana-devnet-prep-payto.sh  # gives the Solana payTo its devnet USDC token account
+```
+
+The first script prints addresses only and refuses to overwrite keys or to write inside the repo.
+Fund the payers with test USDC at faucet.circle.com (it has a captcha, so it is done by hand).
+Mainnet keys are never made by a script here.
+
 ## Rules this code follows
 
 - Non-custodial: every key belongs to whoever pays or receives. Nirium never holds one.
