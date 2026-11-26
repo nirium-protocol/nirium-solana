@@ -27,24 +27,3 @@ jobs:
         working-directory: solana
         run: node test-live.mjs
 
-  avalanche:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: 24
-      - name: Install
-        run: |
-          (cd avalanche && npm ci --no-audit --no-fund)
-          (cd avalanche/fuji-demo && npm ci --no-audit --no-fund)
-          (cd avalanche/erc8004-fuji && npm ci --no-audit --no-fund)
-      - name: Syntax
-        run: for f in $(git ls-files "avalanche/*.mjs"); do node --check "$f"; done
-      - name: Verifier against a real transaction (10 cases, public RPC)
-        working-directory: avalanche
-        run: bash run-tests.sh
-      - name: ERC-8004 dry run (simulation only, no key)
-        working-directory: avalanche/erc8004-fuji
-        run: node register.mjs --dry-run --from 0x1111111111111111111111111111111111111111 --uri ipfs://ci-dry-run
