@@ -31,9 +31,9 @@
   },
   "agent": {
     "alg": "ed25519-solana",
-    "key": "3dKtqu9t7H8UgGyuXcyrv8RWgDhQpKHcj95fA3ywSHij",
+    "key": "FHx7v4JJKLdzxXw7Uc8N1N1NUsCWbhJX9bsvtEAeVHNC",
     "statement": "nirium-audit-v1:ff9507f21cfc7e415934a514f572024b7d435a10592c9adb486796f310776328",
-    "signature": "a5YcYRy/wKLBel+GBdlUWEcAk5RRsoU/R750eH8LFY6rSNh7lTjLInLC3inDa0uXNULG9TYOGr/y+iKLZvB5Cw=="
+    "signature": "Z3UwB7DInX5vCIiFqf9iFG/1ZImDXyUdOcwHz9dc6K3GOTWKWfx3bsMdch0TSeq20SJA8pLrF92ifmtZ9JxsAw=="
   },
   "network": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"
 }

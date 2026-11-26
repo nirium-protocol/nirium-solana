@@ -30,6 +30,18 @@ cd avalanche && npm ci && node verify-evm-receipt.mjs <receipt.json>
 Exit code 0 means valid, 1 means a check failed, 2 means bad input. `--no-sig` skips the signature
 check and says so in the output; it is only for testing against third-party transactions.
 
+## Run the tests
+
+Both suites check real public transactions over public RPC, so they need network access.
+
+```bash
+cd solana && npm ci && node test-live.mjs        # 21 cases, Solana mainnet and devnet
+cd avalanche && npm ci && bash run-tests.sh      # 10 cases, Avalanche C-Chain
+```
+
+The fixtures point at third-party payments and are labeled as such. They test the verifiers;
+they are not usage of this project.
+
 ## Rules this code follows
 
 - Non-custodial: every key belongs to whoever pays or receives. Nirium never holds one.
