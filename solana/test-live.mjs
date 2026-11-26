@@ -4,7 +4,9 @@
 // Expected: the base case passes with --no-sig, every mutation fails with exit 1.
 // The signature tests use a throwaway in-memory ed25519 key that is never saved.
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { generateKeyPairSync, sign } from "node:crypto";
 import { getAddressDecoder } from "@solana/kit";
@@ -55,9 +57,11 @@ add("signed by another key: sig valid, signer != from", signDoc(clone()), [], 1)
 { const d = signDoc(clone()); const s = Buffer.from(d.agent.signature, "base64"); s[0] ^= 1; d.agent.signature = s.toString("base64"); add("tampered signature", d, [], 1); }
 add("no agent block without --no-sig", clone(), [], 1);
 
+// Generated cases go to a temp dir, so running the tests never changes tracked files.
+const outDir = mkdtempSync(join(tmpdir(), "nirium-svm-cases-"));
 let failures = 0;
 for (const [i, c] of cases.entries()) {
-  const f = `fixtures/case-${String(i).padStart(2, "0")}.json`;
+  const f = join(outDir, `case-${String(i).padStart(2, "0")}.json`);
   writeFileSync(f, JSON.stringify(c.doc, null, 2) + "\n");
   const r = spawnSync(process.execPath, ["verify-svm-receipt.mjs", f, ...c.flags], { encoding: "utf8" });
   const ok = r.status === c.expect;
@@ -66,5 +70,6 @@ for (const [i, c] of cases.entries()) {
   console.log(`${ok ? "OK  " : "BAD "} exit=${r.status} expect=${c.expect}  ${c.name}${fails.length ? "  -> FAIL: " + fails.join(" | ") : ""}${r.stderr ? "  stderr: " + r.stderr.trim() : ""}`);
   await new Promise((res) => setTimeout(res, 400));
 }
+rmSync(outDir, { recursive: true, force: true });
 console.log(`\n${cases.length - failures}/${cases.length} as expected`);
 process.exit(failures ? 1 : 0);
