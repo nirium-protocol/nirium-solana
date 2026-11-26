@@ -1,0 +1,31 @@
+{
+  "version": "nirium-payment-binding-v1",
+  "content_sha256": "ee1dadb7e4f9e324f6748e27ed74f644185cff1cd1688c314d458b338925d684",
+  "record": {
+    "labels": [
+      "third-party-fixture"
+    ],
+    "payment": {
+      "amount": "1000",
+      "asset": "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
+      "decimals": 6,
+      "from": "HBkGUrpMyN3ehbyyHMoTz8zSU1Fb5x6gqNUDc77FFGVF",
+      "locator": {
+        "index": 1,
+        "kind": "svm-top-level-ix",
+        "txVersion": 1
+      },
+      "network": "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1",
+      "to": "5bFmK9nY3h8yCszk9QSmBEVYSEjqxnqM8qqJX1oxSjQv",
+      "tx": "j3HUGsfuoMfhV9EqChwhhSoqdMMr9BNVAyKbi3Z6kFbsC5UVjKs7SHpBTErPZ6bnp8pZRFNqQN7GEPDKXTh312z",
+      "x402": {
+        "nonce": "9647a67a5c776a5b9666493f5ee98484",
+        "scheme": "exact"
+      }
+    },
+    "purpose": {
+      "ref": "fixture-v1-devnet"
+    }
+  },
+  "network": "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"
+}

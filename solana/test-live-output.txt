@@ -1,0 +1,23 @@
+OK   exit=0 expect=0  base (real PayAI mainnet tx), --no-sig
+OK   exit=1 expect=1  wrong index (3 = Memo)  -> FAIL: ix 3 program is Token or Token-2022 | ix 3 is transferChecked
+OK   exit=1 expect=1  wrong index (0 = ComputeBudget)  -> FAIL: ix 0 program is Token or Token-2022 | ix 0 is transferChecked
+OK   exit=1 expect=1  index out of range  -> FAIL: top-level ix 9 exists
+OK   exit=1 expect=1  wrong amount (+1)  -> FAIL: transfer.amount == payment.amount | destination balance delta == payment.amount
+OK   exit=1 expect=1  wrong mint (USDT)  -> FAIL: asset is Circle USDC for this network | transfer.mint == payment.asset | transfer.destination == ATA(payment.to, asset, program)
+OK   exit=1 expect=1  wrong destination (to = payer)  -> FAIL: transfer.destination == ATA(payment.to, asset, program)
+OK   exit=1 expect=1  wrong memo  -> FAIL: Memo text == x402.nonce
+OK   exit=1 expect=1  wrong from/authority  -> FAIL: transfer.authority == payment.from
+OK   exit=1 expect=1  wrong decimals  -> FAIL: decimals == 6 | transfer.decimals == payment.decimals
+OK   exit=1 expect=1  wrong txVersion  -> FAIL: locator.txVersion == tx version
+OK   exit=1 expect=1  record edited, hash not updated  -> FAIL: content_sha256 == sha256(canonical(record))
+OK   exit=1 expect=1  tx signature that does not exist  -> FAIL: tx found and finalized
+OK   exit=1 expect=1  mainnet binding checked against devnet RPC  -> FAIL: network == solana:<RPC genesis hash[0..32]> | tx found and finalized
+OK   exit=0 expect=0  v1 tx base (devnet, index 0), --no-sig
+OK   exit=1 expect=1  v1 tx, index 1 (Memo)  -> FAIL: ix 1 program is Token or Token-2022 | ix 1 is transferChecked
+OK   exit=1 expect=1  v1 tx recorded as txVersion 0  -> FAIL: locator.txVersion == tx version
+OK   exit=1 expect=1  v1 tx, wrong amount  -> FAIL: transfer.amount == payment.amount | destination balance delta == payment.amount
+OK   exit=1 expect=1  signed by another key: sig valid, signer != from  -> FAIL: agent.key == payment.from (payer signs)
+OK   exit=1 expect=1  tampered signature  -> FAIL: agent.key == payment.from (payer signs) | ed25519 signature by agent.key over agent.statement
+OK   exit=1 expect=1  no agent block without --no-sig  -> FAIL: agent block present
+
+21/21 as expected

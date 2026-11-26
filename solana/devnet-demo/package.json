@@ -1,0 +1,14 @@
+{
+  "name": "nirium-devnet-demo",
+  "private": true,
+  "type": "module",
+  "description": "Reference x402 exact payment on Solana devnet with a Nirium payment binding",
+  "dependencies": {
+    "@x402/core": "2.32.0",
+    "@x402/express": "2.32.0",
+    "@x402/fetch": "2.32.0",
+    "@x402/svm": "2.32.0",
+    "@solana/kit": "8.6.0",
+    "express": "5.3.0"
+  }
+}

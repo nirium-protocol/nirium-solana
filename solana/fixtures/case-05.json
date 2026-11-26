@@ -1,0 +1,34 @@
+{
+  "version": "nirium-payment-binding-v1",
+  "content_sha256": "ad17878be54bfb9d9bd76205c5d302129bc1a55f2ba4a9db5f3dbfc5233d9202",
+  "record": {
+    "labels": [
+      "third-party-fixture"
+    ],
+    "payment": {
+      "amount": "1000",
+      "asset": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+      "decimals": 6,
+      "from": "9VaAPD1CPE4i8pquaRwE7LvZXMmvGdgffD4Q8xJgaQRu",
+      "locator": {
+        "index": 2,
+        "kind": "svm-top-level-ix",
+        "txVersion": 0
+      },
+      "network": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
+      "to": "vz9No3Xm1EfPcuF56bWc7zV4r1k9TRs9UuDckGCocvv",
+      "tx": "3P5c4KBPg5SVkpeUy1uhE5k2j5HxCLpfGJFdvisEfo1FnJxaAW3CJ2jzV4qBgtWhpWYfoDZSPqA4YchHFt1yApbK",
+      "x402": {
+        "nonce": "12265cf5ca110e12321ae9dd95cb7188",
+        "resource": "unknown (third-party tx)",
+        "scheme": "exact"
+      }
+    },
+    "purpose": {
+      "note": "fixture built from a public third-party PayAI settlement; not ours, not usage",
+      "ref": "fixture-payai-mainnet"
+    }
+  },
+  "agent": null,
+  "network": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"
+}
