@@ -91,5 +91,5 @@ the operator's own wallet: a team self-test, never usage.
 - `make-binding.mjs` with a key that is not the transfer authority refuses to sign (exit 1,
   no file written).
 
-Not tested yet: a real paid run and a binding signed by the real payer. That needs the
-funded payer and payTo accounts above.
+Then run for real on devnet the same day with funded keys: tx `2uyixpix…bWwj`, Memo = the
+order ref, receipt signed by the real payer, VALID. See `../../evidence/README.md`.

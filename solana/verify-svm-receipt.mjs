@@ -4,7 +4,7 @@
 // Usage:
 //   node verify-svm-receipt.mjs <binding.json> [--no-sig] [--rpc <url>] [--json]
 //
-// Format "nirium-payment-binding-v1" (fixed 26-nov-2026, shared with the EVM verifier):
+// Format "nirium-payment-binding-v1" (fixed 26-nov-2026, the same format on every chain):
 // {
 //   "version": "nirium-payment-binding-v1",
 //   "content_sha256": "<hex sha256 of canonical(record)>",

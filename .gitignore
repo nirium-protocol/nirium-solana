@@ -5,5 +5,3 @@ out/
 *.key
 *keypair*.json
 keys/
-settle.json
-binding.json
