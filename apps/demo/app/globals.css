@@ -241,3 +241,11 @@ a.sr:focus-visible { position: fixed; top: 0.5rem; left: 0.5rem; width: auto; he
   .wire { height: 34px; }
   .wire svg { inset: 5px auto; width: 24px; height: 24px; left: 50%; transform: translateX(-50%) rotate(90deg); }
 }
+
+/* What runs on mainnet today, right under the hero: the demo payments are on a test network, the
+   status bar says so, and without this line a visitor reads the whole page as test-only. */
+.mainnet { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; margin: 1.5rem auto 0; }
+.mainnet-head { display: inline-flex; align-items: center; gap: 0.55rem; margin: 0; color: var(--text); font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.7rem; }
+.mainnet-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pass); box-shadow: 0 0 0 4px var(--pass-soft); }
+.mainnet-items { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; list-style: none; margin: 0; padding: 0; }
+.mainnet-items li { border: 1px solid var(--line-2); background: var(--card); border-radius: 999px; padding: 0.35rem 0.9rem; font-size: 0.82rem; color: var(--text); }
