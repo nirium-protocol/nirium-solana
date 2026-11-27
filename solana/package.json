@@ -31,7 +31,7 @@
     "./package.json": "./package.json"
   },
   "bin": {
-    "nirium-verify-svm": "./verify-svm-receipt.mjs"
+    "nirium-verify-svm": "verify-svm-receipt.mjs"
   },
   "files": [
     "sdk/*.mjs",
