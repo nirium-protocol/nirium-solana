@@ -4,12 +4,14 @@ import { Prefs } from "./Prefs";
 import "./globals.css";
 
 // Same typefaces as nirium.xyz: Inter for text, Inconsolata for data, hashes and addresses.
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+// Inter in both styles: the display titles are 900 italic, like nirium.xyz.
+const inter = Inter({ subsets: ["latin"], style: ["normal", "italic"], variable: "--font-inter" });
 const inconsolata = Inconsolata({ subsets: ["latin"], variable: "--font-inconsolata" });
 
 export const metadata: Metadata = {
-  title: "Nirium receipts on Solana",
-  description: "Check a payer-signed x402 receipt against Solana, in your browser.",
+  title: "Nirium on Solana",
+  description: "A receipt signed by whoever pays, that anyone can check against Solana, in the browser.",
+  icons: { icon: "/icon.svg" },
   robots: { index: false, follow: false },
 };
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };
