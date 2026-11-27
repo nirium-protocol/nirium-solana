@@ -1,6 +1,6 @@
 {
   "name": "nirium-solana",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pay and charge with x402 on Solana, refuse a payment before it is signed, and keep a payer-signed receipt bound to the exact SPL transfer",
   "type": "module",
   "license": "Apache-2.0",
@@ -27,7 +27,8 @@
     "./policy": "./policy/svm-policy.mjs",
     "./policy/x402-fetch": "./policy/x402-fetch.mjs",
     "./policy/rules": "./policy/rules-policy.mjs",
-    "./verify": "./verify-svm-receipt.mjs",
+    "./receipt": "./sdk/receipt.mjs",
+    "./verify": "./verify-svm-core.mjs",
     "./package.json": "./package.json"
   },
   "bin": {
@@ -38,10 +39,12 @@
     "policy/svm-policy.mjs",
     "policy/x402-fetch.mjs",
     "policy/rules-policy.mjs",
+    "verify-svm-core.mjs",
     "verify-svm-receipt.mjs"
   ],
   "scripts": {
-    "test": "node --test policy/test/*.test.mjs sdk/test/*.test.mjs",
+    "test": "node --test test/*.test.mjs policy/test/*.test.mjs sdk/test/*.test.mjs",
+    "test:verify": "node --test test/*.test.mjs",
     "test:policy": "node --test policy/test/*.test.mjs",
     "test:sdk": "node --test sdk/test/*.test.mjs",
     "test:live": "node test-live.mjs"
@@ -50,6 +53,8 @@
     "node": ">=20"
   },
   "dependencies": {
+    "@noble/curves": "2.4.0",
+    "@noble/hashes": "2.4.0",
     "@solana/kit": "8.6.0",
     "@x402/core": "2.32.0",
     "@x402/express": "2.32.0",

@@ -33,7 +33,8 @@ They are labeled `selftest` and are not usage. Nothing here has had an external 
 | Path | What it does |
 |---|---|
 | [`docs/payment-binding-v1.md`](docs/payment-binding-v1.md) | The receipt format and what a verifier checks |
-| [`solana/verify-svm-receipt.mjs`](solana/verify-svm-receipt.mjs) | Checks a receipt against an SPL `TransferChecked`: tx signature, top-level instruction index, Memo, payer signature |
+| [`solana/verify-svm-core.mjs`](solana/verify-svm-core.mjs) | Checks a receipt against an SPL `TransferChecked`: tx signature, top-level instruction index, Memo, payer signature. The one verifier: the CLI, `verifyReceipt` and the browser run this file |
+| [`solana/verify-svm-receipt.mjs`](solana/verify-svm-receipt.mjs) | The command line for it (`npx nirium-verify-svm receipt.json`) |
 | [`solana/sdk/`](solana/sdk/README.md) | The library: `x402Serve` to charge, `createX402Fetch` to pay (with an optional policy), `bindReceipt` and `verifyReceipt` |
 | [`solana/policy/`](solana/policy/README.md) | Pre-sign policy: the transaction is decoded and checked, then your policy decides; a refused payment is never signed |
 | [`solana/market/`](solana/market/README.md) | x402 market: Solana network conditions (priority fees, throughput, slot time) for $0.01 per query |
@@ -82,6 +83,7 @@ const receipt = await bindReceipt({ tx: settlementOf(res).transaction, network: 
 
 | Suite | Command | Network |
 |---|---|---|
+| Verifier core, 11 tests (hash, ed25519 against `node:crypto`, the full check on recorded RPC answers, altered fields) | `cd solana && npm ci && npm run test:verify` | none |
 | Verifier, 21 cases against real transactions | `cd solana && npm ci && node test-live.mjs` | public mainnet and devnet RPC |
 | Pre-sign policy, 38 tests | `cd solana && npm ci && npm run test:policy` | none |
 | Library, 8 tests | `cd solana && npm ci && npm run test:sdk` | one test reads the public devnet RPC |
