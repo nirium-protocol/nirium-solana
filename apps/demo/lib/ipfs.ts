@@ -74,7 +74,7 @@ const unixfsNode = (bytes: Uint8Array) =>
 
 /**
  * Does `bytes` hash to `cid`? true / false, or null when it can't be decided here (more than one
- * block, or a CID kind this page does not handle); then `npx nirium-cli verify <CID>` decides.
+ * block, or a CID kind this page does not handle); then `npx -p nirium-solana nirium-verify-svm` on the downloaded receipt decides.
  */
 export async function cidMatches(cid: string, bytes: Uint8Array): Promise<boolean | null> {
   if (bytes.length === 0 || bytes.length > BLOCK_BYTES) return null;
