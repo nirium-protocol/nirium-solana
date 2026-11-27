@@ -60,14 +60,20 @@ export function edit(doc: any, what: Edit): any {
 export function cachingFetch(base: typeof fetch = fetch): typeof fetch {
   const seen = new Map<string, Promise<{ status: number; body: string }>>();
   return (async (url: RequestInfo | URL, init?: RequestInit) => {
-    const key = `${String(url)} ${init?.body ?? ""}`;
+    // The key leaves out the JSON-RPC id, which some clients (viem) change on every call; the
+    // answer is handed back with the id of the request that asked.
+    let rpc: { id?: unknown; method?: string; params?: unknown } | null = null;
+    try { rpc = typeof init?.body === "string" ? JSON.parse(init.body) : null; } catch { rpc = null; }
+    const key = `${String(url)} ${rpc?.method ? JSON.stringify([rpc.method, rpc.params]) : init?.body ?? ""}`;
     if (!seen.has(key)) {
       const pending = base(url, init).then(async (r) => ({ status: r.status, body: await r.text() }));
       seen.set(key, pending);
       pending.then((r) => { if (r.status !== 200) seen.delete(key); }, () => seen.delete(key));
     }
     const r = await seen.get(key)!;
-    return new Response(r.body, { status: r.status, headers: { "content-type": "application/json" } });
+    let body = r.body;
+    if (rpc?.method) { try { body = JSON.stringify({ ...JSON.parse(r.body), id: rpc.id }); } catch { /* not JSON: as is */ } }
+    return new Response(body, { status: r.status, headers: { "content-type": "application/json" } });
   }) as typeof fetch;
 }
 
