@@ -36,7 +36,8 @@ app. Settlement is done by PayAI, an independent x402 facilitator.
 | `nirium-solana` | `x402Serve`, `createX402Fetch`, `settlementOf`, `bindReceipt`, `verifyReceipt`, `createRulesPolicy` |
 | `nirium-solana/policy` | The pre-sign policy gate (decodes what is about to be signed, asks your policy, signs only on a bound ALLOW) |
 | `nirium-solana/policy/rules` | A small reference policy engine: max amount, approval line, allowlists |
-| `nirium-solana/verify` | The receipt verifier as a library |
+| `nirium-solana/receipt` | `bindReceipt` and `verifyReceipt` on their own, without the Express middleware |
+| `nirium-solana/verify` | The receipt verifier as a library. No Node-only code, so it runs in Node and in the browser |
 
 Check a receipt from the command line:
 

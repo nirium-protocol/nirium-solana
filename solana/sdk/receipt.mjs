@@ -5,7 +5,7 @@
 // The receipt adds what the chain does not keep: who declared the payment and what it was for
 // (`purpose`). It does not prove delivery.
 
-import { canonicalize, contentSha256, verifyBinding, VERSION, STATEMENT_PREFIX } from "../verify-svm-receipt.mjs";
+import { canonicalize, contentSha256, verifyBinding, bytesToBase64, VERSION, STATEMENT_PREFIX } from "../verify-svm-core.mjs";
 import { getNetwork, rpcCall } from "./networks.mjs";
 
 const TOKEN = ["TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"];
@@ -85,12 +85,12 @@ export async function bindReceipt(o) {
     const [dict] = await o.signer.signMessages([{ content: new TextEncoder().encode(statement), signatures: {} }]);
     const sig = dict?.[info.authority];
     if (!(sig instanceof Uint8Array) || sig.length !== 64) throw new Error("signer returned no 64-byte signature");
-    agent = { alg: "ed25519-solana", key: info.authority, signature: Buffer.from(sig).toString("base64"), statement };
+    agent = { alg: "ed25519-solana", key: info.authority, signature: bytesToBase64(sig), statement };
   }
   return { version: VERSION, content_sha256, record, ...(agent ? { agent } : {}), network: o.network };
 }
 
-/** Verifies a receipt against the chain. Returns { ok, checks }. */
+/** Verifies a receipt against the chain (the same code as the CLI). Returns { ok, checks }. */
 export function verifyReceipt(doc, { requireSignature = true, rpcUrl } = {}) {
   return verifyBinding(doc, { requireSig: requireSignature, rpc: rpcUrl });
 }

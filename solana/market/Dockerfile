@@ -8,7 +8,7 @@ COPY solana/package.json solana/package-lock.json ./
 RUN npm ci --ignore-scripts --no-audit --no-fund
 COPY solana/sdk ./sdk
 COPY solana/policy ./policy
-COPY solana/verify-svm-receipt.mjs ./
+COPY solana/verify-svm-core.mjs solana/verify-svm-receipt.mjs ./
 COPY solana/market/package.json solana/market/package-lock.json ./market/
 WORKDIR /app/solana/market
 RUN npm ci --ignore-scripts --no-audit --no-fund
