@@ -1,0 +1,11 @@
+**/node_modules
+**/.env
+**/.env.*
+**/*keypair*.json
+**/*.key
+.git
+evidence
+docs
+scripts
+**/test
+**/examples
