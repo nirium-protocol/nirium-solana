@@ -14,8 +14,10 @@ Network conditions of a Solana cluster for $0.01 per query, paid with x402.
 - Payment goes from the buyer straight to the market's `payTo`, settled by an independent
   facilitator (PayAI) that also pays the network fee. Send `X-Nirium-Ref` and it is written
   on-chain as the payment's Memo. The market stores nothing about buyers.
-- Devnet only for now. On mainnet each sale is income for Nirium, so the server refuses mainnet
-  unless `NIRIUM_MARKET_ALLOW_MAINNET=1`.
+- Live on mainnet at `https://nirium-market-solana.fly.dev/v1/market` since 27 Nov 2026. The only sale so far is the team's own
+  self-test (see `../../evidence/README.md`); it is not usage. Each sale is income for Nirium,
+  which is why the server refuses mainnet unless `NIRIUM_MARKET_ALLOW_MAINNET=1`, set on purpose
+  in `fly.market.toml`.
 
 ```bash
 (cd .. && npm ci)   # the market uses the nirium-solana package from the folder above

@@ -21,9 +21,9 @@ same receipt format and the same pre-sign policy contract to Solana.
 | Piece | Devnet | Mainnet |
 |---|---|---|
 | Receipt verifier (`solana/verify-svm-receipt.mjs`) | yes | yes, one team self-test payment |
-| Pre-sign policy (`solana/policy/`) | yes, DENY / WAIT / ALLOW runs | not run yet |
-| Pay and charge library (`solana/sdk/`) | yes | not run yet |
-| x402 market (`solana/market/`) | yes | not yet |
+| Pre-sign policy (`solana/policy/`) | yes, DENY / WAIT / ALLOW runs | yes, one team self-test purchase (ALLOWED, SIGNED) |
+| Pay and charge library (`solana/sdk/`) | yes | yes, the same purchase, with the published npm package |
+| x402 market (`solana/market/`) | yes | live on Fly; one team self-test sale so far |
 
 Every payment listed in [`evidence/`](evidence/README.md) was made by the team to test the flow.
 They are labeled `selftest` and are not usage. Nothing here has had an external audit.
