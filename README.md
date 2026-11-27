@@ -15,6 +15,7 @@ Status: work in progress, devnet first. Nothing here has had an external audit.
 |---|---|
 | `docs/payment-binding-v1.md` | The receipt format |
 | `solana/verify-svm-receipt.mjs` | Checks a receipt against an SPL `TransferChecked`: tx signature, top-level instruction index, Memo |
+| `solana/policy/` | Pre-sign policy: a payment your policy refuses is never signed; the transaction is decoded and checked before the policy is asked |
 | `solana/devnet-demo/` | x402 `exact` payment on Solana with PayAI as facilitator, then writes and signs the receipt |
 | `scripts/` | Devnet key setup and the payTo token account |
 | `evidence/` | Payments made by the team to test the flow, with their receipts |
