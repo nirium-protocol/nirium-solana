@@ -12,7 +12,7 @@ COPY solana/verify-svm-core.mjs solana/verify-svm-receipt.mjs ./
 COPY solana/market/package.json solana/market/package-lock.json ./market/
 WORKDIR /app/solana/market
 RUN npm ci --ignore-scripts --no-audit --no-fund
-COPY solana/market/data.mjs solana/market/server.mjs ./
+COPY solana/market/data.mjs solana/market/server.mjs solana/market/geo.mjs ./
 USER node
 ENV PORT=8080
 EXPOSE 8080
