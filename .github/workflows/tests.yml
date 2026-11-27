@@ -30,7 +30,7 @@ jobs:
       - name: Pre-sign policy (38 tests, no network)
         working-directory: solana
         run: npm run test:policy
-      - name: Library (pay, charge, receipts; 8 tests, one reads the public devnet RPC)
+      - name: Library (pay, charge, receipts, decisions; 13 tests, one reads the public devnet RPC)
         working-directory: solana
         run: npm run test:sdk
       - name: x402 market (4 tests, no network)
@@ -46,7 +46,7 @@ jobs:
           mkdir "$RUNNER_TEMP/consumer" && cd "$RUNNER_TEMP/consumer"
           npm init -y >/dev/null
           npm install --no-audit --no-fund "$RUNNER_TEMP"/nirium-solana-*.tgz
-          node --input-type=module -e "for (const p of ['nirium-solana','nirium-solana/policy','nirium-solana/policy/x402-fetch','nirium-solana/policy/rules','nirium-solana/receipt','nirium-solana/verify']) await import(p); console.log('imports ok')"
+          node --input-type=module -e "for (const p of ['nirium-solana','nirium-solana/policy','nirium-solana/policy/x402-fetch','nirium-solana/policy/rules','nirium-solana/receipt','nirium-solana/verify','nirium-solana/decision']) await import(p); console.log('imports ok')"
           npx --no-install nirium-verify-svm "$GITHUB_WORKSPACE/solana/../evidence/2026-11-26/solana-devnet-binding.json" | tail -1 | grep -q "RESULT: VALID"
           if tar -tzf "$RUNNER_TEMP"/nirium-solana-*.tgz | grep -E -i "test|example|evidence|fixture|market|demo"; then echo "unexpected files in the package"; exit 1; fi
 

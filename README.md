@@ -33,6 +33,7 @@ They are labeled `selftest` and are not usage. Nothing here has had an external 
 | Path | What it does |
 |---|---|
 | [`docs/payment-binding-v1.md`](docs/payment-binding-v1.md) | The receipt format and what a verifier checks |
+| [`docs/decision-receipt-v1.md`](docs/decision-receipt-v1.md) | Decision receipts: a payer-signed record of what the pre-sign policy decided, including payments it refused (DENY, WAIT), which leave nothing on-chain |
 | [`solana/verify-svm-core.mjs`](solana/verify-svm-core.mjs) | Checks a receipt against an SPL `TransferChecked`: tx signature, top-level instruction index, Memo, payer signature. The one verifier: the CLI, `verifyReceipt` and the browser run this file |
 | [`solana/verify-svm-receipt.mjs`](solana/verify-svm-receipt.mjs) | The command line for it (`npx nirium-verify-svm receipt.json`) |
 | [`solana/sdk/`](solana/sdk/README.md) | The library: `x402Serve` to charge, `createX402Fetch` to pay (with an optional policy), `bindReceipt` and `verifyReceipt` |
@@ -86,7 +87,7 @@ const receipt = await bindReceipt({ tx: settlementOf(res).transaction, network: 
 | Verifier core, 11 tests (hash, ed25519 against `node:crypto`, the full check on recorded RPC answers, altered fields) | `cd solana && npm ci && npm run test:verify` | none |
 | Verifier, 21 cases against real transactions | `cd solana && npm ci && node test-live.mjs` | public mainnet and devnet RPC |
 | Pre-sign policy, 38 tests | `cd solana && npm ci && npm run test:policy` | none |
-| Library, 8 tests | `cd solana && npm ci && npm run test:sdk` | one test reads the public devnet RPC |
+| Library, 13 tests | `cd solana && npm ci && npm run test:sdk` | one test reads the public devnet RPC |
 | Market, 4 tests | `cd solana && npm ci && cd market && npm ci && npm test` | none |
 
 CI runs all of them on every pull request. The verifier fixtures point at third-party payments
