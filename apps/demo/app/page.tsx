@@ -1,13 +1,15 @@
 "use client";
+import Link from "next/link";
 import { usePrefs } from "./Prefs";
 
-// The receipt explorer and the paid demo land in the next PRs.
+// The paid demo lands here in a later PR.
 export default function Home() {
   const { t } = usePrefs();
   return (
     <main className="wrap">
       <h1>{t.homeTitle}</h1>
       <p className="lead">{t.homeLead}</p>
+      <p><Link href="/explorer">{t.openExplorer} →</Link></p>
     </main>
   );
 }
