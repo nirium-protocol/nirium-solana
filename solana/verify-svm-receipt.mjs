@@ -40,9 +40,9 @@
 // Exit code 0 = every check passed, 1 = at least one failed (or not finalized yet),
 // 2 = bad input.
 
-import { readFileSync } from "node:fs";
+import { readFileSync, realpathSync } from "node:fs";
 import { createHash, createPublicKey, verify as edVerify } from "node:crypto";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
 import { address, getAddressEncoder, getProgramDerivedAddress } from "@solana/kit";
 
 export const VERSION = "nirium-payment-binding-v1";
@@ -253,4 +253,7 @@ async function main() {
   process.exit(res.ok ? 0 : 1);
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();
+// Run main() when executed directly, including through the npm bin symlink: compare real paths,
+// or a symlinked call would skip main() and exit 0 without checking anything.
+const invokedPath = (() => { try { return realpathSync(process.argv[1]); } catch { return undefined; } })();
+if (invokedPath && realpathSync(fileURLToPath(import.meta.url)) === invokedPath) main();

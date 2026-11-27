@@ -7,7 +7,7 @@ import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import { generateKeyPairSigner } from "@solana/kit";
 import { createX402Fetch, settlementOf, DEVNET } from "nirium-solana";
-import { associatedTokenAddress } from "nirium-solana-policy";
+import { associatedTokenAddress } from "nirium-solana/policy";
 import { summarize } from "../data.mjs";
 import { createMarketApp } from "../server.mjs";
 

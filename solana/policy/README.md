@@ -15,8 +15,8 @@ same verdicts, same outcomes, same `contextHash`.
 
 ```js
 import { createKeyPairSignerFromBytes } from "@solana/kit";
-import { createPolicyX402Fetch } from "./x402-fetch.mjs";
-import { createRulesPolicy } from "./rules-policy.mjs";
+import { createPolicyX402Fetch } from "nirium-solana/policy/x402-fetch";
+import { createRulesPolicy } from "nirium-solana/policy/rules";
 
 const pay = createPolicyX402Fetch({
   signer: await createKeyPairSignerFromBytes(secretKeyBytes),
@@ -52,7 +52,7 @@ engine is not consulted:
 ## Tests
 
 ```bash
-npm ci && npm test   # 38 tests, no network
+cd .. && npm ci && npm run test:policy   # 38 tests, no network
 ```
 
 A local fake RPC answers only the mint account and the blockhash comes in `extra`, so the real

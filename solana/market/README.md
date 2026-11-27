@@ -18,6 +18,7 @@ Network conditions of a Solana cluster for $0.01 per query, paid with x402.
   unless `NIRIUM_MARKET_ALLOW_MAINNET=1`.
 
 ```bash
+(cd .. && npm ci)   # the market uses the nirium-solana package from the folder above
 npm ci
 PAY_TO=<wallet> node server.mjs                                             # port 4023
 NIRIUM_PAYER_KEYPAIR=<path> node buy.mjs --payto <wallet> --ref order-1     # buys one query, writes a receipt

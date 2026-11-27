@@ -1,11 +1,70 @@
 {
-  "name": "nirium-verify-svm",
-  "private": true,
+  "name": "nirium-solana",
+  "version": "0.1.0",
+  "description": "Pay and charge with x402 on Solana, refuse a payment before it is signed, and keep a payer-signed receipt bound to the exact SPL transfer",
   "type": "module",
-  "description": "Read-only verifier for Nirium payment bindings on Solana",
-  "dependencies": {
-    "@solana/kit": "8.6.0"
-  },
   "license": "Apache-2.0",
-  "version": "1.0.0"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nirium-protocol/nirium-solana.git",
+    "directory": "solana"
+  },
+  "homepage": "https://github.com/nirium-protocol/nirium-solana#readme",
+  "bugs": {
+    "url": "https://github.com/nirium-protocol/nirium-solana/issues"
+  },
+  "keywords": [
+    "x402",
+    "solana",
+    "usdc",
+    "payments",
+    "receipts",
+    "ai-agents",
+    "payai"
+  ],
+  "exports": {
+    ".": "./sdk/index.mjs",
+    "./policy": "./policy/svm-policy.mjs",
+    "./policy/x402-fetch": "./policy/x402-fetch.mjs",
+    "./policy/rules": "./policy/rules-policy.mjs",
+    "./verify": "./verify-svm-receipt.mjs",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "nirium-verify-svm": "./verify-svm-receipt.mjs"
+  },
+  "files": [
+    "sdk/*.mjs",
+    "policy/svm-policy.mjs",
+    "policy/x402-fetch.mjs",
+    "policy/rules-policy.mjs",
+    "verify-svm-receipt.mjs"
+  ],
+  "scripts": {
+    "test": "node --test policy/test/*.test.mjs sdk/test/*.test.mjs",
+    "test:policy": "node --test policy/test/*.test.mjs",
+    "test:sdk": "node --test sdk/test/*.test.mjs",
+    "test:live": "node test-live.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@solana/kit": "8.6.0",
+    "@x402/core": "2.32.0",
+    "@x402/express": "2.32.0",
+    "@x402/fetch": "2.32.0",
+    "@x402/svm": "2.32.0"
+  },
+  "peerDependencies": {
+    "express": "^4.22.3 || ^5.3.0"
+  },
+  "peerDependenciesMeta": {
+    "express": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "express": "5.3.0"
+  }
 }

@@ -15,7 +15,7 @@
 // paid routes answer 503 with a hint and every other route keeps working.
 
 import { address as toAddress } from "@solana/kit";
-import { associatedTokenAddress } from "nirium-solana-policy";
+import { associatedTokenAddress } from "../policy/svm-policy.mjs";
 import { getNetwork, dollarsToAtomic, rpcCall, PAYAI_FACILITATOR, REF_RE, TOKEN_PROGRAM } from "./networks.mjs";
 
 // Linear time. A `/\/+$/` replace is polynomial on input made of many slashes (CodeQL
