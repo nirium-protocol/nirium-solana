@@ -20,3 +20,18 @@ payer, so the payer needed no SOL; balances read on-chain moved payer 0.50 → 0
 in the Memo instruction next to the transfer. The devnet receipt was also checked against altered
 copies of itself (amount, instruction index, receiver, memo, an edited `purpose`, an altered
 signature): every altered copy failed for the expected reason.
+
+## Pre-sign policy on devnet
+
+Three runs of `solana/policy/demo-pay.mjs` against the same 0.01 USDC resource, through PayAI on
+devnet. The payer's USDC balance was read on-chain before and after each run.
+
+| Policy | Outcome | Signed | Sent to the seller | Payer balance (USDC) |
+|---|---|---|---|---|
+| max 5000 | DENY ("amount 10000 above limit 5000") | no | no | 19.99 → 19.99 |
+| max 20000, approval above 5000 | WAIT ("needs approval") | no | no | 19.99 → 19.99 |
+| max 10000, payTo allowlisted | ALLOWED, SIGNED | yes | yes: [`4mPSGLf2…KQtv`](https://explorer.solana.com/tx/4mPSGLf258vyCxkTB9xx7ZjJB1NJurwXy4pHh6LAzzmLNGCo15RACkNq4ExmYdzzcTFLeyTmZwxdx4cFNKiBKQtv?cluster=devnet) | 19.99 → 19.98 |
+
+The ALLOW payment has its own payer-signed receipt, `2026-11-26/solana-devnet-policy-allow-binding.json`,
+VALID. A refused payment leaves nothing on-chain by design: nothing was signed.
+

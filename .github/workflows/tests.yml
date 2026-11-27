@@ -21,8 +21,12 @@ jobs:
         run: |
           (cd solana && npm ci --no-audit --no-fund)
           (cd solana/devnet-demo && npm ci --no-audit --no-fund)
+          (cd solana/policy && npm ci --no-audit --no-fund)
       - name: Syntax
         run: for f in $(git ls-files "solana/*.mjs"); do node --check "$f"; done
+      - name: Pre-sign policy (38 tests, no network)
+        working-directory: solana/policy
+        run: npm test
       - name: Verifier against real transactions (21 cases, public RPC)
         working-directory: solana
         run: node test-live.mjs
