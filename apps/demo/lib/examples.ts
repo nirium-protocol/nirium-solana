@@ -19,6 +19,15 @@ export const STORIES = [
     },
   },
   {
+    cid: "QmWMvQ8pcAGs2fojuZvUzxj68VvZfdYYpbR8gqL6j9cCi6",
+    edit: "amount",
+    title: { en: "An edited receipt", es: "Un recibo editado" },
+    text: {
+      en: "The devnet receipt with its amount changed in this page after it was signed. Watch which links break, and why.",
+      es: "El recibo de devnet con el monto cambiado en esta página después de firmarse. Mira qué líneas se rompen, y por qué.",
+    },
+  },
+  {
     cid: "QmNjcqmY3xCnHfpvj8KXj9ZhKFEzyrMmXEQ8jNfBkhpZMz",
     title: { en: "A receipt from another network", es: "Un recibo de otra red" },
     text: {
