@@ -29,7 +29,7 @@ jobs:
       - name: Pre-sign policy (38 tests, no network)
         working-directory: solana/policy
         run: npm test
-      - name: SDK (pay, charge, receipts; 7 tests, one reads the public devnet RPC)
+      - name: SDK (pay, charge, receipts; 8 tests, one reads the public devnet RPC)
         working-directory: solana/sdk
         run: npm test
       - name: x402 market (3 tests, no network)
