@@ -19,6 +19,22 @@ export const STORIES = [
     },
   },
   {
+    cid: "QmT4qw5QpF2ffB2o1BQcpbGQDG8gRuu7bzDJqFhPU1VUkb",
+    title: { en: "A payment that never happened", es: "Un pago que nunca ocurrió" },
+    text: {
+      en: "The payer's policy refused a $0.01 payment on devnet before signing it: above its $0.005 limit. Nothing reached the chain; this receipt, signed by the payer, is the record of the attempt.",
+      es: "La política de quien paga rechazó un pago de $0.01 en devnet antes de firmarlo: pasaba su límite de $0.005. Nada llegó a la cadena; este recibo, firmado por quien paga, es el registro del intento.",
+    },
+  },
+  {
+    cid: "QmWccVYqxr7SUrZiaF5RQur6og8eBirKnGYrXivD9d25w3",
+    title: { en: "A payment held for a person", es: "Un pago retenido para que lo apruebe una persona" },
+    text: {
+      en: "The same $0.01 on devnet, held before signing because anything above $0.005 needs a person's approval. Nothing was signed while it waited.",
+      es: "Los mismos $0.01 en devnet, retenidos antes de firmar porque todo lo que pase de $0.005 necesita que lo apruebe una persona. Mientras esperaba no se firmó nada.",
+    },
+  },
+  {
     cid: "QmWMvQ8pcAGs2fojuZvUzxj68VvZfdYYpbR8gqL6j9cCi6",
     title: { en: "A payment on devnet, checked end to end", es: "Un pago en devnet, comprobado de punta a punta" },
     text: {
