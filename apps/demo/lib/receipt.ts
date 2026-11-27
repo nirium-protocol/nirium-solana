@@ -2,28 +2,64 @@
 // receipt the visitor pasted, and sorts the result for the page. Nothing leaves the browser except
 // the RPC calls the verifier makes to the receipt's own network.
 
-import { verifyBinding, type Check } from "nirium-solana/verify";
+import { verifyBinding, contentSha256, ed25519Valid, STATEMENT_PREFIX, VERSION, type Check } from "nirium-solana/verify";
+import { extractCid } from "./ipfs.ts";
 import { NETWORKS, MAINNET, SIGNATURE_RE, rpcFailureOf, type RpcFailure } from "./chain.ts";
 
 export type Input =
   | { kind: "receipt"; doc: Record<string, any>; network: string }
   | { kind: "signature"; signature: string }
+  | { kind: "cid"; cid: string }
+  | { kind: "foreign"; family: "stellar" | "evm" }
   | { kind: "invalid"; reason: "not-json" | "not-a-receipt" | "unknown-network" | "unrecognized" };
 
-/** Decides what was pasted. The network comes from the receipt itself, never from the page. */
+/** Decides what was pasted: a CID (or gateway URL), a transaction signature, or a receipt. The
+ *  network comes from the receipt itself, never from the page. */
 export function classify(text: string): Input {
   const t = text.trim();
   if (!t) return { kind: "invalid", reason: "unrecognized" };
   if (t.startsWith("{")) {
     let doc: any;
     try { doc = JSON.parse(t); } catch { return { kind: "invalid", reason: "not-json" }; }
-    const network = doc?.record?.payment?.network;
-    if (typeof network !== "string") return { kind: "invalid", reason: "not-a-receipt" };
-    if (!NETWORKS[network]) return { kind: "invalid", reason: "unknown-network" };
-    return { kind: "receipt", doc, network };
+    return classifyDoc(doc);
   }
+  const cid = extractCid(t);
+  if (cid) return { kind: "cid", cid };
   if (SIGNATURE_RE.test(t)) return { kind: "signature", signature: t };
+  if (/^0x[0-9a-fA-F]{64}$/.test(t)) return { kind: "foreign", family: "evm" };
   return { kind: "invalid", reason: "unrecognized" };
+}
+
+/** A parsed document: a receipt for this page's networks, one for another network, or neither. */
+export function classifyDoc(doc: any): Input {
+  const network = doc?.record?.payment?.network ?? doc?.network;
+  if (typeof network === "string" && network.startsWith("stellar:")) return { kind: "foreign", family: "stellar" };
+  if (typeof network === "string" && network.startsWith("eip155:")) return { kind: "foreign", family: "evm" };
+  if (typeof doc?.record?.payment?.network !== "string") return { kind: "invalid", reason: "not-a-receipt" };
+  if (!NETWORKS[network]) return { kind: "invalid", reason: "unknown-network" };
+  return { kind: "receipt", doc, network };
+}
+
+/** Where a receipt or transaction of another network can be checked. */
+export const FOREIGN_URL = { stellar: "https://nirium.xyz/verify", evm: "https://avalanche.nirium.xyz/explorer" } as const;
+
+/**
+ * What can be checked without the chain: the hash of the record, the statement, who signed and
+ * the signature. Used when a mainnet receipt has no RPC to ask; never reported as VALID.
+ */
+export function checkOffline(doc: any): Check[] {
+  const p = doc?.record?.payment ?? {};
+  const a = doc?.agent ?? {};
+  const computed = contentSha256(doc?.record);
+  let sigOk = false;
+  try { sigOk = typeof a.key === "string" && typeof a.signature === "string" && ed25519Valid(a.key, String(a.statement), a.signature); } catch { sigOk = false; }
+  return [
+    { name: "version == nirium-payment-binding-v1", ok: doc?.version === VERSION, detail: `version=${doc?.version}` },
+    { name: "content_sha256 == sha256(canonical(record))", ok: doc?.content_sha256 === computed, detail: `doc=${doc?.content_sha256} computed=${computed}` },
+    { name: "agent.statement == nirium-audit-v1:<content_sha256>", ok: a.statement === STATEMENT_PREFIX + doc?.content_sha256, detail: `statement=${a.statement}` },
+    { name: "agent.key == payment.from (payer signs)", ok: !!a.key && a.key === p.from, detail: `key=${a.key}` },
+    { name: "ed25519 signature by agent.key over agent.statement", ok: sigOk, detail: "" },
+  ];
 }
 
 export type Verdict =

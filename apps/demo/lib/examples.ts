@@ -1,17 +1,38 @@
-// One-click examples: the team's own test payments from evidence/, imported as they are so the
-// page never shows a copy that drifted. Each one is labeled as a team self-test in the UI.
-import devnet from "../../../evidence/2026-11-26/solana-devnet-binding.json";
-import devnetPolicy from "../../../evidence/2026-11-26/solana-devnet-policy-allow-binding.json";
-import devnetSdk from "../../../evidence/2026-11-26/solana-devnet-sdk-binding.json";
-import devnetMarket from "../../../evidence/2026-11-27/solana-devnet-market-fly-binding.json";
-import mainnet from "../../../evidence/2026-11-26/solana-mainnet-binding.json";
-import mainnetMarket from "../../../evidence/2026-11-27/solana-mainnet-market-binding.json";
-
-export const EXAMPLES = [
-  { id: "devnet", label: { en: "Devnet payment", es: "Pago en devnet" }, doc: devnet },
-  { id: "devnet-policy", label: { en: "Devnet, after a policy ALLOW", es: "Devnet, tras un ALLOW de la política" }, doc: devnetPolicy },
-  { id: "devnet-sdk", label: { en: "Devnet, paid with the library", es: "Devnet, pagado con la librería" }, doc: devnetSdk },
-  { id: "devnet-market", label: { en: "Devnet, market query", es: "Devnet, consulta al market" }, doc: devnetMarket },
-  { id: "mainnet", label: { en: "Mainnet payment", es: "Pago en mainnet" }, doc: mainnet },
-  { id: "mainnet-market", label: { en: "Mainnet, market query", es: "Mainnet, consulta al market" }, doc: mainnetMarket },
+// Examples as stories: receipts the team anchored on Nirium's Audit Trail, opened by CID so they go
+// through the same gateway fetch and CID recomputation as anything a visitor pastes. All of them are
+// the team's own test payments and are labeled that way on the page.
+export const STORIES = [
+  {
+    cid: "Qme4Cwz5suiYQ5bRKjQqvxFdtRWwDQSbE5m2ZxLNq8Vuhg",
+    title: { en: "The first payment on Solana mainnet", es: "El primer pago en Solana mainnet" },
+    text: {
+      en: "0.01 USDC on 27 Nov 2026 (UTC), the order reference written on chain as the Memo. Without your own mainnet RPC, the page shows what it can check and says what is missing.",
+      es: "0.01 USDC el 27 nov 2026 (UTC), con la referencia de la orden escrita en la cadena como Memo. Sin tu propio RPC de mainnet, la página muestra lo que puede comprobar y dice qué falta.",
+    },
+  },
+  {
+    cid: "QmWMvQ8pcAGs2fojuZvUzxj68VvZfdYYpbR8gqL6j9cCi6",
+    title: { en: "A payment on devnet, checked end to end", es: "Un pago en devnet, comprobado de punta a punta" },
+    text: {
+      en: "The same kind of receipt on devnet, where the public RPC answers browsers: every check runs, including the ones against the chain.",
+      es: "El mismo tipo de recibo en devnet, donde el RPC público sí responde al navegador: corren todas las comprobaciones, también las de la cadena.",
+    },
+  },
+  {
+    cid: "QmWMvQ8pcAGs2fojuZvUzxj68VvZfdYYpbR8gqL6j9cCi6",
+    edit: "amount",
+    title: { en: "An edited receipt", es: "Un recibo editado" },
+    text: {
+      en: "The devnet receipt with its amount changed in this page after it was signed. Watch which links break, and why.",
+      es: "El recibo de devnet con el monto cambiado en esta página después de firmarse. Mira qué líneas se rompen, y por qué.",
+    },
+  },
+  {
+    cid: "QmNjcqmY3xCnHfpvj8KXj9ZhKFEzyrMmXEQ8jNfBkhpZMz",
+    title: { en: "A receipt from another network", es: "Un recibo de otra red" },
+    text: {
+      en: "A payment on Avalanche Fuji. This page recognizes it and sends you to the page that checks Avalanche.",
+      es: "Un pago en Avalanche Fuji. Esta página lo reconoce y te manda a la que comprueba Avalanche.",
+    },
+  },
 ] as const;
