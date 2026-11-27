@@ -57,3 +57,20 @@ on-chain as the Memo and a payer-signed receipt.
 | 2026-11-27 | Solana devnet | [`3H338d41…Puv2`](https://explorer.solana.com/tx/3H338d41hPn5zTRc8N8G8H84QJiXGCpUFEWizZSCaZ8jyuXAqnZ2XjNZjrdGuBDaqT23S35LqqiBz28TPAMyPuv2?cluster=devnet) | top-level ix 2, tx v0, Memo = `selftest-2026-11-26-sol-market-01` | 0.01 USDC | `2026-11-26/solana-devnet-market-binding.json` | VALID, payer-signed (27 checks) |
 
 Team self-test with test tokens. The market is devnet-only; on mainnet each sale would be income.
+
+## x402 market on Fly (testnet, then mainnet)
+
+The market runs on Fly at [`https://nirium-market-solana.fly.dev`](https://nirium-market-solana.fly.dev/v1/market/info). First a paid query on
+testnet through the public URL, then the config switched to mainnet with a payTo created for the
+market only (`AD4aGC5SEe7ZMXB36TtvuL52WgNSYHnokEhWh4GUGF9m`) and one purchase made by the team. The mainnet purchase was made from
+`Gm3XXXKx…oBG` (team self-test wallet) with the **published npm package** (`nirium-solana@0.1.0`), under a policy that only
+allowed this payTo and at most 0.01 USDC (ALLOWED, SIGNED). The market's payTo balance read
+on-chain went 0.02 → 0.03 USDC.
+
+| Date (UTC) | Network | Transaction | Locator | Amount | Receipt | Verifier |
+|---|---|---|---|---|---|---|
+| 2026-11-27 | Solana devnet | [`5VUzeCmw…8wUn`](https://explorer.solana.com/tx/5VUzeCmwqvfTuyuB6gTR1UKh7XbpS5erCgH3SminfmepUDE6ngYoTkXVZfmC5e96TwaJDqZZc43oWepqvQme8wUn?cluster=devnet) | top-level ix 2, tx v0, Memo = `selftest-2026-11-27-sol-market-fly-01` | 0.01 USDC | `2026-11-27/solana-devnet-market-fly-binding.json` | VALID, payer-signed (27 checks) |
+| 2026-11-27 | **Solana mainnet** | [`5wTXAGK7…5RrQ`](https://explorer.solana.com/tx/5wTXAGK7svVMLznSCFQeaZsLvdqZVDr2mTW63XKA6kpmhxbXcYVFQrS2gwHfv8HhARnkbyJmMP2uDwAAsx6p5RrQ) | top-level ix 2, tx v0, Memo = `selftest-2026-11-27-sol-market-mainnet-01` | 0.01 USDC | `2026-11-27/solana-mainnet-market-binding.json` | VALID, payer-signed (27 checks) |
+
+Both are team self-tests: the mainnet sale was paid with team funds and is **not** a customer
+sale or usage. From now on, a sale to this payTo from anyone else is income for Nirium.

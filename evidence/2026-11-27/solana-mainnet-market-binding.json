@@ -1,0 +1,39 @@
+{
+  "version": "nirium-payment-binding-v1",
+  "content_sha256": "eb518dc0db6e7fe05569f92932f9a499749c9bf6b8396ea0d5f447c35992c166",
+  "record": {
+    "labels": [
+      "selftest"
+    ],
+    "payment": {
+      "amount": "10000",
+      "asset": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "decimals": 6,
+      "from": "Gm3XXXKxDW4DnKjaJ5SYj6Le9kypWMEEujkbqTAGcoBG",
+      "locator": {
+        "index": 2,
+        "kind": "svm-top-level-ix",
+        "txVersion": 0
+      },
+      "network": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
+      "to": "AD4aGC5SEe7ZMXB36TtvuL52WgNSYHnokEhWh4GUGF9m",
+      "tx": "5wTXAGK7svVMLznSCFQeaZsLvdqZVDr2mTW63XKA6kpmhxbXcYVFQrS2gwHfv8HhARnkbyJmMP2uDwAAsx6p5RrQ",
+      "x402": {
+        "nonce": "selftest-2026-11-27-sol-market-mainnet-01",
+        "resource": "https://nirium-market-solana.fly.dev/v1/market",
+        "scheme": "exact"
+      }
+    },
+    "purpose": {
+      "note": "Nirium x402 market query, Solana mainnet (team self-test)",
+      "ref": "selftest-2026-11-27-sol-market-mainnet-01"
+    }
+  },
+  "agent": {
+    "alg": "ed25519-solana",
+    "key": "Gm3XXXKxDW4DnKjaJ5SYj6Le9kypWMEEujkbqTAGcoBG",
+    "signature": "3cpyaamRvl8LAIlosAu6TkT9M9SRKSSPPVUA4od/IzQWREEh+FYabqtMa/Pb5zzuL5LMObI0PW+/bCRYfhExAg==",
+    "statement": "nirium-audit-v1:eb518dc0db6e7fe05569f92932f9a499749c9bf6b8396ea0d5f447c35992c166"
+  },
+  "network": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"
+}
