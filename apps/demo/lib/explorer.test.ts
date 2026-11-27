@@ -91,3 +91,16 @@ test("helpers: units, RPC URLs and transport errors", () => {
   assert.equal(rpcFailureOf(new Error("getGenesisHash: RPC error HTTP 429 (transport, not a verdict on the binding)")), "rate-limited");
   assert.equal(rpcFailureOf(new Error("missing record.payment")), null);
 });
+
+test("a decision receipt is recognized and checked by hash and payer signature", async () => {
+  const { verifyDecision } = await import("nirium-solana/decision");
+  for (const name of ["deny", "wait"]) {
+    const doc = read(`../../../evidence/2026-11-27/solana-devnet-decision-${name}.json`);
+    const c = classify(JSON.stringify(doc));
+    assert.equal(c.kind, "decision");
+    assert.equal((await verifyDecision(doc)).ok, true, name);
+    const edited = structuredClone(doc);
+    edited.record.decision.outcome = "ALLOWED";
+    assert.equal((await verifyDecision(edited)).ok, false, `${name} edited`);
+  }
+});

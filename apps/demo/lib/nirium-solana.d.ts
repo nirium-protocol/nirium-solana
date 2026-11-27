@@ -7,3 +7,8 @@ declare module "nirium-solana/verify" {
   export const STATEMENT_PREFIX: string;
   export function ed25519Valid(keyBase58: string, message: string, signatureBase64: string): boolean;
 }
+
+declare module "nirium-solana/decision" {
+  export const DECISION_VERSION: string;
+  export function verifyDecision(doc: unknown, opts?: { record?: unknown }): Promise<{ ok: boolean; checks: { name: string; ok: boolean; detail?: string }[] }>;
+}
