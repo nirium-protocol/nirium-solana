@@ -15,6 +15,7 @@
   "dependencies": {
     "@solana/kit": "8.6.0",
     "express": "5.3.0",
+    "geoip-lite": "2.0.3",
     "nirium-solana": "file:.."
   }
 }
