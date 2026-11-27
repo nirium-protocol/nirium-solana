@@ -41,6 +41,7 @@ export function Prefs({ children }: { children: React.ReactNode }) {
           <Logo /><b>NIRIUM</b> <span className="chip">Solana</span><span className="sr">, {t.home}</span>
         </Link>
         <div className="toggles">
+          <a className="allchains" href="https://nirium.xyz/chains">{t.allChains}</a>
           <div role="group" aria-label={t.langLabel}>
             {(["en", "es"] as const).map((l) => (
               <button key={l} type="button" lang={l} aria-pressed={lang === l} onClick={() => pickLang(l)}>{l.toUpperCase()}</button>
