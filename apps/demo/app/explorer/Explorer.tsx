@@ -205,7 +205,7 @@ function ResultView({ result, onEdit, rechecking }: { result: Result; onEdit: (e
     <div className="card note">
       <p>{t.notFound}</p>
       <ul className="attempts mono">{result.attempts.map((a) => <li key={a.gateway}>{host(a.gateway)}: {a.status}</li>)}</ul>
-      <pre className="cmd"><code>npx nirium-cli verify {result.cid}</code></pre>
+      <pre className="cmd"><code>curl -sL https://nirium.myfilebase.com/ipfs/{result.cid} -o receipt.json && npx -p nirium-solana nirium-verify-svm receipt.json</code></pre>
     </div>
   );
   if (result.kind === "partial") return (
@@ -214,7 +214,7 @@ function ResultView({ result, onEdit, rechecking }: { result: Result; onEdit: (e
       <p className="verdict incomplete"><Mark ok={null} /> {t.partial}</p>
       <p>{t.partialLead}</p>
       <CheckGroup title={t.groupReceipt} checks={result.checks} />
-      <div className="card note"><p>{t.needsRpc}</p><pre className="cmd"><code>npx nirium-verify-svm receipt.json</code></pre></div>
+      <div className="card note"><p>{t.needsRpc}</p><pre className="cmd"><code>npx -p nirium-solana nirium-verify-svm receipt.json</code></pre></div>
     </div>
   );
   const v = result.verdict;

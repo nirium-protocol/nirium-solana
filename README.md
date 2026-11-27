@@ -35,7 +35,7 @@ They are labeled `selftest` and are not usage. Nothing here has had an external 
 | [`docs/payment-binding-v1.md`](docs/payment-binding-v1.md) | The receipt format and what a verifier checks |
 | [`docs/decision-receipt-v1.md`](docs/decision-receipt-v1.md) | Decision receipts: a payer-signed record of what the pre-sign policy decided, including payments it refused (DENY, WAIT), which leave nothing on-chain |
 | [`solana/verify-svm-core.mjs`](solana/verify-svm-core.mjs) | Checks a receipt against an SPL `TransferChecked`: tx signature, top-level instruction index, Memo, payer signature. The one verifier: the CLI, `verifyReceipt` and the browser run this file |
-| [`solana/verify-svm-receipt.mjs`](solana/verify-svm-receipt.mjs) | The command line for it (`npx nirium-verify-svm receipt.json`) |
+| [`solana/verify-svm-receipt.mjs`](solana/verify-svm-receipt.mjs) | The command line for it (`npx -p nirium-solana nirium-verify-svm receipt.json`) |
 | [`solana/sdk/`](solana/sdk/README.md) | The library: `x402Serve` to charge, `createX402Fetch` to pay (with an optional policy), `bindReceipt` and `verifyReceipt` |
 | [`solana/policy/`](solana/policy/README.md) | Pre-sign policy: the transaction is decoded and checked, then your policy decides; a refused payment is never signed |
 | [`solana/market/`](solana/market/README.md) | x402 market: Solana network conditions (priority fees, throughput, slot time) for $0.01 per query |
@@ -50,7 +50,7 @@ npm install nirium-solana
 ```
 
 One package with the library, the pre-sign policy (`nirium-solana/policy`) and the receipt verifier
-(`nirium-solana/verify`, and `npx nirium-verify-svm receipt.json` on the command line). Its own README is
+(`nirium-solana/verify`, and `npx -p nirium-solana nirium-verify-svm receipt.json` on the command line). Its own README is
 [`solana/README.md`](solana/README.md).
 
 Check one of the team's receipts against the chain:
