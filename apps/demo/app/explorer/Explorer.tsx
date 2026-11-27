@@ -29,6 +29,8 @@ export function Explorer() {
   async function run(input = text) {
     const c = classify(input);
     if (c.kind === "invalid") return setResult({ kind: "invalid", reason: c.reason });
+    // CIDs and other networks get their own flow in the next change; until then, not recognized.
+    if (c.kind === "cid" || c.kind === "foreign") return setResult({ kind: "invalid", reason: "unrecognized" });
     setBusy(true);
     setResult(null);
     try {

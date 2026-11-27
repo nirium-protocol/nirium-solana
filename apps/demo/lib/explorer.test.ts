@@ -31,7 +31,7 @@ test("classify: the network comes from the receipt, and bad input is named", () 
   assert.deepEqual(classify(`  ${receipt.record.payment.tx}\n`), { kind: "signature", signature: receipt.record.payment.tx });
   assert.deepEqual(classify("{ not json"), { kind: "invalid", reason: "not-json" });
   assert.deepEqual(classify('{"a":1}'), { kind: "invalid", reason: "not-a-receipt" });
-  assert.deepEqual(classify('{"record":{"payment":{"network":"eip155:43113"}}}'), { kind: "invalid", reason: "unknown-network" });
+  assert.deepEqual(classify('{"record":{"payment":{"network":"solana:unknown"}}}'), { kind: "invalid", reason: "unknown-network" });
   assert.deepEqual(classify("0x1234"), { kind: "invalid", reason: "unrecognized" });
 });
 
