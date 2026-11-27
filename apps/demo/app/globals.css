@@ -9,11 +9,11 @@
   --card: #121212;
   --field: rgba(0, 0, 0, 0.4);
   --text: #ffffff;
-  --muted: #a1a1aa;          /* 7.6:1 on #121212 */
-  --faint: #8b8b93;          /* 5.2:1 on #121212 */
+  --muted: #a1a1aa;          /* 7.3:1 on #121212 */
+  --faint: #8b8b93;          /* 5.5:1 on #121212 */
   --line: rgba(255, 255, 255, 0.06);
   --line-2: rgba(255, 255, 255, 0.12);
-  --accent: #b794ff;         /* pulse-violet, lightened: 7.9:1 on #121212 */
+  --accent: #b794ff;         /* pulse-violet, lightened: 7.8:1 on #121212 */
   --accent-soft: rgba(183, 148, 255, 0.1);
   --pass: #34d399;
   --pass-soft: rgba(52, 211, 153, 0.1);
@@ -33,7 +33,7 @@
   --field: #f4f4f6;
   --text: #18181b;
   --muted: #52525b;          /* 7.7:1 on white */
-  --faint: #63636b;          /* 6.0:1 on white */
+  --faint: #63636b;          /* 6.0:1 on white, 5.7:1 on #f8f9fa */
   --line: rgba(24, 24, 27, 0.08);
   --line-2: rgba(24, 24, 27, 0.14);
   --accent: #5b21b6;
