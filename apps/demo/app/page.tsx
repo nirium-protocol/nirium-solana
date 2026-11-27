@@ -16,6 +16,10 @@ export default function Home() {
         <p className="badge">{h.badge}</p>
         <h1 className="display">{h.titlePre} <em>Solana</em></h1>
         <p className="lead">{h.lead}</p>
+        <div className="mainnet">
+          <p className="mainnet-head"><span className="mainnet-dot" aria-hidden="true" />{h.onMainnet}</p>
+          <ul className="mainnet-items">{h.mainnetItems.map((item) => <li key={item}>{item}</li>)}</ul>
+        </div>
         <div className="ctas">
           <Link className="btn" href="/explorer">{h.verifyCta} <span aria-hidden="true">→</span></Link>
           <a className="btn ghost" href={REPO} target="_blank" rel="noreferrer">{h.repoCta}</a>
