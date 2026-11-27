@@ -5,8 +5,6 @@ writing a `nirium-payment-binding-v1` receipt bound to the exact SPL transfer
 (tx signature + top-level instruction index) and checking it with
 `../verify-svm-receipt.mjs`.
 
-Private working copy. Nothing here has been committed, deployed or published.
-
 Pinned versions: `@x402/core`, `@x402/express`, `@x402/fetch`, `@x402/svm` 2.32.0,
 `@solana/kit` 8.6.0, `express` 5.3.0 (the `@x402/express` peer range is
 `^4.22.3 || ^5.3.0`). Node 24.
