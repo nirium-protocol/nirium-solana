@@ -11,7 +11,7 @@ import { readFileSync } from "node:fs";
 import { verify as edVerify, createPublicKey } from "node:crypto";
 import express from "express";
 import { generateKeyPairSigner, getTransactionDecoder, getBase64Encoder, getAddressEncoder } from "@solana/kit";
-import { describeAuthorization, associatedTokenAddress } from "nirium-solana-policy";
+import { describeAuthorization, associatedTokenAddress } from "../../policy/svm-policy.mjs";
 import {
   x402Serve, createX402Fetch, settlementOf, bindReceipt, verifyReceipt, dollarsToAtomic,
   createRulesPolicy, X402PolicyError, DEVNET,

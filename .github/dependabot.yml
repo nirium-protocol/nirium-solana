@@ -9,22 +9,6 @@ updates:
       x402-and-solana-evm:
         patterns: ["@x402/*", "@solana/*", "viem"]
   - package-ecosystem: npm
-    directory: "/solana/policy"
-    schedule:
-      interval: weekly
-    open-pull-requests-limit: 5
-    groups:
-      x402-and-solana-evm:
-        patterns: ["@x402/*", "@solana/*", "viem"]
-  - package-ecosystem: npm
-    directory: "/solana/sdk"
-    schedule:
-      interval: weekly
-    open-pull-requests-limit: 5
-    groups:
-      x402-and-solana-evm:
-        patterns: ["@x402/*", "@solana/*", "viem"]
-  - package-ecosystem: npm
     directory: "/solana/market"
     schedule:
       interval: weekly

@@ -15,7 +15,6 @@
   "dependencies": {
     "@solana/kit": "8.6.0",
     "express": "5.3.0",
-    "nirium-solana": "file:../sdk",
-    "nirium-solana-policy": "file:../policy"
+    "nirium-solana": "file:.."
   }
 }

@@ -5,7 +5,7 @@
 // The receipt adds what the chain does not keep: who declared the payment and what it was for
 // (`purpose`). It does not prove delivery.
 
-import { canonicalize, contentSha256, verifyBinding, VERSION, STATEMENT_PREFIX } from "nirium-verify-svm/verify-svm-receipt.mjs";
+import { canonicalize, contentSha256, verifyBinding, VERSION, STATEMENT_PREFIX } from "../verify-svm-receipt.mjs";
 import { getNetwork, rpcCall } from "./networks.mjs";
 
 const TOKEN = ["TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"];

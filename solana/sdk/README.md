@@ -4,7 +4,7 @@ Nirium on Solana: pay and charge with x402, refuse payments before they are sign
 what a payment was for.
 
 ```js
-import { x402Serve, createX402Fetch, settlementOf, bindReceipt, verifyReceipt, createRulesPolicy, DEVNET } from "./index.mjs";
+import { x402Serve, createX402Fetch, settlementOf, bindReceipt, verifyReceipt, createRulesPolicy, DEVNET } from "nirium-solana";
 
 // Charge for your own API (runs on your server; Nirium runs nothing and receives nothing)
 app.use(x402Serve({ payTo: "<wallet>", network: DEVNET, routes: { "GET /data": "$0.01" } }));
@@ -32,7 +32,7 @@ does not prove delivery. Format: `../../docs/payment-binding-v1.md`.
 ## Tests
 
 ```bash
-npm ci && npm test   # 8 tests
+cd .. && npm ci && npm run test:sdk   # 8 tests
 ```
 
 The pay/charge loop runs offline: a fake RPC answers the mint, the payTo's token account and the

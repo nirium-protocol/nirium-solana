@@ -2,6 +2,7 @@
 
 [![tests](https://github.com/nirium-protocol/nirium-solana/actions/workflows/tests.yml/badge.svg)](https://github.com/nirium-protocol/nirium-solana/actions/workflows/tests.yml)
 [![CodeQL](https://github.com/nirium-protocol/nirium-solana/actions/workflows/codeql.yml/badge.svg)](https://github.com/nirium-protocol/nirium-solana/actions/workflows/codeql.yml)
+[![npm](https://img.shields.io/npm/v/nirium-solana.svg)](https://www.npmjs.com/package/nirium-solana)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 Pay and charge with x402 on Solana, refuse a payment before it is signed, and keep a receipt
@@ -42,6 +43,14 @@ They are labeled `selftest` and are not usage. Nothing here has had an external 
 
 ## Quick start
 
+```bash
+npm install nirium-solana
+```
+
+One package with the library, the pre-sign policy (`nirium-solana/policy`) and the receipt verifier
+(`nirium-solana/verify`, and `npx nirium-verify-svm receipt.json` on the command line). Its own README is
+[`solana/README.md`](solana/README.md).
+
 Check one of the team's receipts against the chain:
 
 ```bash
@@ -56,7 +65,7 @@ transactions.
 Charge for your own API and pay for someone else's (devnet):
 
 ```js
-import { x402Serve, createX402Fetch, settlementOf, bindReceipt, createRulesPolicy, DEVNET } from "./solana/sdk/index.mjs";
+import { x402Serve, createX402Fetch, settlementOf, bindReceipt, createRulesPolicy, DEVNET } from "nirium-solana";
 
 app.use(x402Serve({ payTo: "<your wallet>", network: DEVNET, routes: { "GET /data": "$0.01" } }));
 
@@ -74,9 +83,9 @@ const receipt = await bindReceipt({ tx: settlementOf(res).transaction, network: 
 | Suite | Command | Network |
 |---|---|---|
 | Verifier, 21 cases against real transactions | `cd solana && npm ci && node test-live.mjs` | public mainnet and devnet RPC |
-| Pre-sign policy, 38 tests | `cd solana/policy && npm ci && npm test` | none |
-| Library, 8 tests | `cd solana/sdk && npm ci && npm test` | one test reads the public devnet RPC |
-| Market, 3 tests | `cd solana/market && npm ci && npm test` | none |
+| Pre-sign policy, 38 tests | `cd solana && npm ci && npm run test:policy` | none |
+| Library, 8 tests | `cd solana && npm ci && npm run test:sdk` | one test reads the public devnet RPC |
+| Market, 3 tests | `cd solana && npm ci && cd market && npm ci && npm test` | none |
 
 CI runs all of them on every pull request. The verifier fixtures point at third-party payments
 and are labeled as such: they test the verifier, they are not usage of this project.

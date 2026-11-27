@@ -6,5 +6,5 @@ export { createX402Fetch, settlementOf } from "./pay.mjs";
 export { x402Serve } from "./serve.mjs";
 export { bindReceipt, verifyReceipt } from "./receipt.mjs";
 export { NETWORKS, DEVNET, MAINNET, PAYAI_FACILITATOR, REF_RE, getNetwork, dollarsToAtomic } from "./networks.mjs";
-export { createRulesPolicy } from "nirium-solana-policy/rules";
-export { X402PolicyError } from "nirium-solana-policy";
+export { createRulesPolicy } from "../policy/rules-policy.mjs";
+export { X402PolicyError } from "../policy/svm-policy.mjs";

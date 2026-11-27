@@ -11,7 +11,7 @@
 
 import { wrapFetchWithPayment, x402Client, decodePaymentResponseHeader } from "@x402/fetch";
 import { ExactSvmScheme } from "@x402/svm/exact/client";
-import { createPolicyX402Fetch } from "nirium-solana-policy/x402-fetch";
+import { createPolicyX402Fetch } from "../policy/x402-fetch.mjs";
 import { getNetwork } from "./networks.mjs";
 
 /**
