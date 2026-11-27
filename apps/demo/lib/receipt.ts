@@ -41,7 +41,7 @@ export function classifyDoc(doc: any): Input {
 }
 
 /** Where a receipt or transaction of another network can be checked. */
-export const FOREIGN_URL = { stellar: "https://nirium.xyz/verify", evm: "https://avalanche.nirium.xyz/explorer" } as const;
+export const FOREIGN_URL = { stellar: "https://nirium.xyz/verify", evm: "https://nirium.xyz/avalanche/explorer" } as const;
 
 /**
  * What can be checked without the chain: the hash of the record, the statement, who signed and

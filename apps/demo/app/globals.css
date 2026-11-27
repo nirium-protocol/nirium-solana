@@ -255,3 +255,7 @@ a.sr:focus-visible { position: fixed; top: 0.5rem; left: 0.5rem; width: auto; he
 .mainnet-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pass); box-shadow: 0 0 0 4px var(--pass-soft); }
 .mainnet-items { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; list-style: none; margin: 0; padding: 0; }
 .mainnet-items li { border: 1px solid var(--line-2); background: var(--card); border-radius: 999px; padding: 0.35rem 0.9rem; font-size: 0.82rem; color: var(--text); }
+
+/* Back to nirium.xyz/chains, where every chain is listed: this page is one of them. */
+.allchains { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.9rem; border: 1px solid var(--line-2); border-radius: 999px; color: var(--muted); text-decoration: none; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.allchains:hover { color: var(--text); border-color: var(--accent); }

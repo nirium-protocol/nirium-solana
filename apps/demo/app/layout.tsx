@@ -11,7 +11,7 @@ const inconsolata = Inconsolata({ subsets: ["latin"], variable: "--font-inconsol
 export const metadata: Metadata = {
   title: "Nirium on Solana",
   description: "A receipt signed by whoever pays, that anyone can check against Solana, in the browser.",
-  icons: { icon: "/icon.svg" },
+  icons: { icon: "/solana/icon.svg" }, // basePath is not added to metadata icons
   robots: { index: false, follow: false },
 };
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };
