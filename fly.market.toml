@@ -33,4 +33,4 @@ primary_region = "iad"
 
 [[vm]]
   size = "shared-cpu-1x"
-  memory = "256mb"
+  memory = "512mb" # geoip-lite (Tier A block) keeps its country data in memory; 256mb ran out (OOM, 27-nov-2026)
