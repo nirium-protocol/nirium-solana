@@ -27,3 +27,16 @@ npm test                                                                    # 3 
 
 `buy.mjs` uses the SDK with a policy (only PayAI's published fee payers allowed), so the buyer only
 signs what the policy allows, and it leaves a payer-signed receipt bound to the payment.
+
+## Deploy
+
+The repository root has the Fly config (`fly.market.toml`) and this folder has the image
+(`Dockerfile`). From the repository root:
+
+```bash
+fly deploy -c fly.market.toml --remote-only
+```
+
+The server holds no key: the only payment setting is the public address that receives each sale.
+The config ships on testnet; its comments list the three values that switch it to mainnet
+together. CI builds the same image and checks that `/health` answers 200 and `/v1/market` 402.

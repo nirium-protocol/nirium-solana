@@ -1,0 +1,36 @@
+# Fly app for the solana x402 market. Deploy from the repository root:
+#   fly deploy -c fly.market.toml --remote-only
+# The server holds no key: PAY_TO is the public address that receives each sale.
+app = "nirium-market-solana"
+primary_region = "iad"
+
+[build]
+  dockerfile = "solana/market/Dockerfile"
+
+[env]
+  PORT = "8080"
+  # Testnet (devnet) until the mainnet switch. Mainnet needs three changes together:
+  #   NETWORK = "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"
+  #   PAY_TO = "AD4aGC5SEe7ZMXB36TtvuL52WgNSYHnokEhWh4GUGF9m"   (its USDC token account must exist before the first sale (x402Serve checks and answers 503 until it does))
+  #   NIRIUM_MARKET_ALLOW_MAINNET = "1"   (each sale is income for Nirium)
+  NETWORK = "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"
+  PAY_TO = "4xdH6PvKDqntiHqFea5x6XQpJ4wtgrK5qS42nu7KQZt"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # Stops when idle and starts on the first request: near zero cost with no traffic.
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval = "30s"
+    method = "GET"
+    path = "/health"
+    timeout = "5s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
