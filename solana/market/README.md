@@ -38,5 +38,4 @@ fly deploy -c fly.market.toml --remote-only
 ```
 
 The server holds no key: the only payment setting is the public address that receives each sale.
-The config ships on testnet; its comments list the three values that switch it to mainnet
-together. CI builds the same image and checks that `/health` answers 200 and `/v1/market` 402.
+The config runs on mainnet; its comments list the values that take it back to testnet. CI builds the same image and checks that `/health` answers 200 and `/v1/market` 402.

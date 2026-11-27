@@ -9,12 +9,12 @@ primary_region = "iad"
 
 [env]
   PORT = "8080"
-  # Testnet (devnet) until the mainnet switch. Mainnet needs three changes together:
-  #   NETWORK = "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"
-  #   PAY_TO = "AD4aGC5SEe7ZMXB36TtvuL52WgNSYHnokEhWh4GUGF9m"   (its USDC token account must exist before the first sale (x402Serve checks and answers 503 until it does))
-  #   NIRIUM_MARKET_ALLOW_MAINNET = "1"   (each sale is income for Nirium)
-  NETWORK = "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"
-  PAY_TO = "4xdH6PvKDqntiHqFea5x6XQpJ4wtgrK5qS42nu7KQZt"
+  # Solana mainnet since 27-nov-2026. Each sale is income for Nirium and settles straight to this
+  # address, created for the market only (separate from the team's self-test wallets).
+  NETWORK = "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"
+  PAY_TO = "AD4aGC5SEe7ZMXB36TtvuL52WgNSYHnokEhWh4GUGF9m"
+  NIRIUM_MARKET_ALLOW_MAINNET = "1"
+  # Back to testnet: NETWORK = "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1", the team's test payTo, and remove the line above.
 
 [http_service]
   internal_port = 8080
