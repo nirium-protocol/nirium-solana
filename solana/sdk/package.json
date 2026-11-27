@@ -1,0 +1,27 @@
+{
+  "name": "nirium-solana",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Nirium on Solana: pay and charge with x402, pre-sign policy, payer-signed receipts",
+  "type": "module",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": "./index.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@solana/kit": "8.6.0",
+    "@x402/core": "2.32.0",
+    "@x402/express": "2.32.0",
+    "@x402/fetch": "2.32.0",
+    "@x402/svm": "2.32.0",
+    "express": "5.3.0",
+    "nirium-solana-policy": "file:../policy",
+    "nirium-verify-svm": "file:.."
+  }
+}
