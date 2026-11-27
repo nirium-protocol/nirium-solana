@@ -28,6 +28,7 @@
     "./policy/x402-fetch": "./policy/x402-fetch.mjs",
     "./policy/rules": "./policy/rules-policy.mjs",
     "./receipt": "./sdk/receipt.mjs",
+    "./decision": "./sdk/decision.mjs",
     "./verify": "./verify-svm-core.mjs",
     "./package.json": "./package.json"
   },
