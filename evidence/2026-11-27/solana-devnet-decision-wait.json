@@ -1,0 +1,38 @@
+{
+  "version": "nirium-decision-v1",
+  "content_sha256": "515643b1ebc48fa71cf310ec5bde493d55c7f5e0741abbe58332f842c7a1179a",
+  "record": {
+    "decision": {
+      "outcome": "WAIT",
+      "policyVersion": "rules-v1",
+      "reason": "amount 10000 needs approval (above 5000)"
+    },
+    "intent": {
+      "amount": "10000",
+      "asset": "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
+      "contextHash": "a9266c39df571b8fca1456e113d1bfc514707a2558a3e60648648d81a452cf0a",
+      "decimals": 6,
+      "from": "Agz2K6geFEgXPGrbitCA5g4fJVd7jdD3VkbPe7iDz7tz",
+      "method": "GET",
+      "network": "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1",
+      "nonce": "22376dfed95f7a976e595d6eedcb9669",
+      "payloadHash": "100be83643062b2df7628ae213e1df678427c14d6d5311d0c2a54dad07c27da6",
+      "resource": "http://127.0.0.1:39809/data",
+      "to": "4xdH6PvKDqntiHqFea5x6XQpJ4wtgrK5qS42nu7KQZt"
+    },
+    "labels": [
+      "selftest"
+    ],
+    "purpose": {
+      "note": "Held before signing: above $0.005 needs a person's approval",
+      "ref": "selftest-2026-11-27-sol-decision-wait"
+    }
+  },
+  "agent": {
+    "alg": "ed25519-solana",
+    "key": "Agz2K6geFEgXPGrbitCA5g4fJVd7jdD3VkbPe7iDz7tz",
+    "signature": "GMre1y4opwAYXG2d/G9z2QsrNPPTsQgAkjKxyx2MV4xH8vt8UB/iLepwGpTHFwQlIootWUfLHYyPdeCNWYJvBQ==",
+    "statement": "nirium-audit-v1:515643b1ebc48fa71cf310ec5bde493d55c7f5e0741abbe58332f842c7a1179a"
+  },
+  "network": "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"
+}

@@ -12,12 +12,14 @@ import { fetchCid, type Attempt } from "@/lib/ipfs.ts";
 import { classify, classifyDoc, verifyReceipt, checkOffline, isChainCheck, reasonKey, FOREIGN_URL, type Verdict } from "@/lib/receipt.ts";
 import { DEVNET, MAINNET, NETWORKS, cleanRpcUrl, explorerTxUrl, formatUnits, lookupTransaction, rpcFailureOf, type RpcFailure, type TxView } from "@/lib/chain.ts";
 import type { Check } from "nirium-solana/verify";
+import { verifyDecision } from "nirium-solana/decision";
 import { links, edit, cachingFetch, withFetch, type Edit } from "@/lib/mechanism.ts";
 import { Mechanism } from "./Mechanism";
 
 type Source = { cid: string; gateway: string; cidCheck: boolean | null };
 type Result =
   | { kind: "receipt"; network: string; verdict: Verdict; source: Source | null; original: Record<string, any>; doc: Record<string, any>; tx: TxView | null; edits: Edit[] }
+  | { kind: "decision"; network: string; ok: boolean; checks: Check[]; source: Source | null; doc: Record<string, any> }
   | { kind: "partial"; checks: Check[]; source: Source | null }
   | { kind: "tx"; found: TxView[]; mainnetSkipped: boolean; error: RpcFailure | null }
   | { kind: "foreign"; family: "stellar" | "evm"; cid: string | null }
@@ -46,6 +48,11 @@ export function Explorer() {
   async function checkDoc(doc: any, source: Source | null, firstEdit?: Edit) {
     const c = classifyDoc(doc);
     if (c.kind === "foreign") return setResult({ kind: "foreign", family: c.family, cid: source?.cid ?? null });
+    if (c.kind === "decision") {
+      setBusy("checking");
+      const v = await verifyDecision(c.doc);
+      return setResult({ kind: "decision", network: c.network, ok: v.ok, checks: v.checks.map((k) => ({ ...k, detail: k.detail ?? "" })), source, doc: c.doc });
+    }
     if (c.kind !== "receipt") return setResult({ kind: "invalid", reason: c.kind === "invalid" ? c.reason : "not-a-receipt" });
     if (c.network === MAINNET && !rpcUrl) { setRpcOpen(true); return setResult({ kind: "partial", checks: checkOffline(c.doc), source }); }
     setBusy("checking");
@@ -86,7 +93,7 @@ export function Explorer() {
     if (c.kind === "invalid") return setResult({ kind: "invalid", reason: c.reason });
     if (c.kind === "foreign") return setResult({ kind: "foreign", family: c.family, cid: null });
     try {
-      if (c.kind === "receipt") return await checkDoc(c.doc, null, firstEdit);
+      if (c.kind === "receipt" || c.kind === "decision") return await checkDoc(c.doc, null, firstEdit);
       if (c.kind === "cid") {
         setBusy("fetching");
         const got = await fetchCid(c.cid);
@@ -208,6 +215,7 @@ function ResultView({ result, onEdit, rechecking }: { result: Result; onEdit: (e
       <pre className="cmd"><code>curl -sL https://nirium.myfilebase.com/ipfs/{result.cid} -o receipt.json && npx -p nirium-solana nirium-verify-svm receipt.json</code></pre>
     </div>
   );
+  if (result.kind === "decision") return <DecisionResult result={result} />;
   if (result.kind === "partial") return (
     <div>
       <SourceLine source={result.source} />
@@ -300,5 +308,33 @@ export function Mark({ ok }: { ok: boolean | null }) {
     <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14">
       {ok === null ? <path d="M3 7h8" stroke="currentColor" strokeWidth="2" /> : ok ? <path d="M2.5 7.5 5.5 10.5 11.5 3.5" fill="none" stroke="currentColor" strokeWidth="2" /> : <path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" strokeWidth="2" />}
     </svg>
+  );
+}
+
+function DecisionResult({ result }: { result: Extract<Result, { kind: "decision" }> }) {
+  const { t } = usePrefs();
+  const r = result.doc.record ?? {};
+  const i = r.intent ?? {};
+  const outcome = String(r.decision?.outcome ?? "");
+  const lead = !result.ok ? t.decision.invalidLead : outcome === "DENY" ? t.decision.deny : outcome === "WAIT" ? t.decision.wait : t.decision.other;
+  return (
+    <div>
+      <SourceLine source={result.source} />
+      <p className={`verdict ${result.ok ? "valid" : "invalid"}`}><Mark ok={result.ok} /> {result.ok ? t.valid : t.invalid} <span className="net">{NETWORKS[result.network].name}</span><span className="net">{outcome}</span></p>
+      <p>{lead}</p>
+      <dl className="facts mono">
+        <dt>{t.decision.outcome}</dt><dd>{outcome}</dd>
+        {r.decision?.reason && <><dt>{t.decision.reason}</dt><dd>{r.decision.reason}</dd></>}
+        {r.decision?.policyVersion && <><dt>{t.decision.policy}</dt><dd>{r.decision.policyVersion}</dd></>}
+        <dt>{t.decision.amount}</dt><dd>{formatUnits(String(i.amount ?? ""), typeof i.decimals === "number" ? i.decimals : null)} USDC</dd>
+        <dt>{t.decision.to}</dt><dd title={i.to}>{short(String(i.to ?? ""))}</dd>
+        <dt>{t.decision.from}</dt><dd title={i.from}>{short(String(i.from ?? ""))}</dd>
+        <dt>{t.decision.resource}</dt><dd>{String(i.resource ?? "")}</dd>
+        {r.purpose?.note && <><dt>{t.decision.purpose}</dt><dd>{r.purpose.note}</dd></>}
+        {r.purpose?.ref && <><dt>{t.decision.ref}</dt><dd>{r.purpose.ref}</dd></>}
+      </dl>
+      <p className="note">{t.decision.noChain}</p>
+      <CheckGroup title={t.groupReceipt} checks={result.checks} />
+    </div>
   );
 }

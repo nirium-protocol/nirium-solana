@@ -1,0 +1,38 @@
+{
+  "version": "nirium-decision-v1",
+  "content_sha256": "40de020e617a672c8029ef751cadde853bb04586f77db165fbbe9bb5bdf6db04",
+  "record": {
+    "decision": {
+      "outcome": "DENY",
+      "policyVersion": "rules-v1",
+      "reason": "amount 10000 above limit 5000"
+    },
+    "intent": {
+      "amount": "10000",
+      "asset": "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
+      "contextHash": "bc9f9e526bb26ce6cc0f43fc3289c1048ba2d02663b1d62544d5740205141ca3",
+      "decimals": 6,
+      "from": "Agz2K6geFEgXPGrbitCA5g4fJVd7jdD3VkbPe7iDz7tz",
+      "method": "GET",
+      "network": "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1",
+      "nonce": "8c55a24220bcb81617a233a330b47ad9",
+      "payloadHash": "b3ad8e6ad866114aa494e28672415523da20799211b85abe5a6876a52452536b",
+      "resource": "http://127.0.0.1:39809/data",
+      "to": "4xdH6PvKDqntiHqFea5x6XQpJ4wtgrK5qS42nu7KQZt"
+    },
+    "labels": [
+      "selftest"
+    ],
+    "purpose": {
+      "note": "Refused before signing: $0.01 is above the $0.005 limit",
+      "ref": "selftest-2026-11-27-sol-decision-deny"
+    }
+  },
+  "agent": {
+    "alg": "ed25519-solana",
+    "key": "Agz2K6geFEgXPGrbitCA5g4fJVd7jdD3VkbPe7iDz7tz",
+    "signature": "L9SiEnbujK7adCCLelK/WrXGaluXbcALkL54pkvf4LUn5kQTiJarVk1C9+UVYGrLIVkbC+RSCX0X6TbWRYtVCg==",
+    "statement": "nirium-audit-v1:40de020e617a672c8029ef751cadde853bb04586f77db165fbbe9bb5bdf6db04"
+  },
+  "network": "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"
+}

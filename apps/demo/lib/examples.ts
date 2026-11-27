@@ -11,6 +11,14 @@ export const STORIES = [
     },
   },
   {
+    cid: "QmXmmVHWqGHDCgp6WLQCienWqkA16CyKf5dKP84EhTtFLA",
+    title: { en: "A sale of the x402 market", es: "Una venta del market x402" },
+    text: {
+      en: "A $0.01 query to Nirium's x402 market for Solana network data, on devnet. The payer signed this receipt for that exact transfer, with the order reference as the Memo.",
+      es: "Una consulta de $0.01 al market x402 de Nirium por datos de la red de Solana, en devnet. Quien pagó firmó este recibo para esa transferencia exacta, con la referencia de la orden como Memo.",
+    },
+  },
+  {
     cid: "QmWMvQ8pcAGs2fojuZvUzxj68VvZfdYYpbR8gqL6j9cCi6",
     title: { en: "A payment on devnet, checked end to end", es: "Un pago en devnet, comprobado de punta a punta" },
     text: {

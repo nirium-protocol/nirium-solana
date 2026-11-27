@@ -74,3 +74,16 @@ on-chain went 0.02 → 0.03 USDC.
 
 Both are team self-tests: the mainnet sale was paid with team funds and is **not** a customer
 sale or usage. From now on, a sale to this payTo from anyone else is income for Nirium.
+
+## Decision receipts (Solana devnet, 27 Nov 2026)
+
+`2026-11-27/`: solana-devnet-decision-deny.json, solana-devnet-decision-wait.json. The pre-sign policy refused a $0.01 x402 payment twice, once as DENY
+(limit $0.005) and once as WAIT (above $0.005 needs a person). Nothing was signed or sent, so there
+is no transaction; each refusal has a receipt signed by the payer (`nirium-decision-v1`, format in
+`docs/decision-receipt-v1.md`), checked with `verifyDecision` (10 of 10). Team self-test with test
+tokens, not usage.
+
+```bash
+NIRIUM_PAYER_KEYPAIR=<path> PAY_TO=<wallet> node solana/sdk/examples/decision-selftest.mjs --ref selftest-2026-11-27-sol-decision
+```
+
