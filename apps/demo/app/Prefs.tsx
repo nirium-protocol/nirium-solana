@@ -37,8 +37,8 @@ export function Prefs({ children }: { children: React.ReactNode }) {
         {facts.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
       </dl>
       <header className="bar">
-        <Link className="brand" href="/" aria-label={t.home}>
-          <Logo /><b>NIRIUM</b><span className="chip">Solana</span>
+        <Link className="brand" href="/">
+          <Logo /><b>NIRIUM</b> <span className="chip">Solana</span><span className="sr">, {t.home}</span>
         </Link>
         <div className="toggles">
           <div role="group" aria-label={t.langLabel}>

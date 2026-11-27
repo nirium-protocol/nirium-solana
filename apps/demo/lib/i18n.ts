@@ -2,7 +2,7 @@ export type Lang = "en" | "es";
 
 const en = {
   skip: "Skip to content",
-  home: "Nirium on Solana, home",
+  home: "home",
   status: { label: "About this page", demo: "Demo payments", demoValue: "devnet, test tokens only", checks: "Checks", checksValue: "in your browser", stored: "Sent to Nirium", storedValue: "nothing", networks: "Networks", library: "Library" },
   langLabel: "Language",
   toLight: "Switch to the light theme",
@@ -98,7 +98,7 @@ const en = {
 
 const es: typeof en = {
   skip: "Ir al contenido",
-  home: "Nirium en Solana, inicio",
+  home: "inicio",
   status: { label: "Sobre esta página", demo: "Pagos de la demo", demoValue: "devnet, solo tokens de prueba", checks: "Comprobaciones", checksValue: "en tu navegador", stored: "Enviado a Nirium", storedValue: "nada", networks: "Redes", library: "Librería" },
   langLabel: "Idioma",
   toLight: "Cambiar al tema claro",
