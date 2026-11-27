@@ -46,3 +46,14 @@ a payer-signed receipt from `bindReceipt` checked with `verifyReceipt`.
 |---|---|---|---|---|---|---|
 | 2026-11-27 | Solana devnet | [`hfwT3Fqp…Bn7`](https://explorer.solana.com/tx/hfwT3FqpmG5qfA2GkBVT2EbEHfjoFLidwrXPwSm1M6vMmT71K4M24q3VS4zXmCVbPPY1NAWA7JqLL7Ma8asBAn7?cluster=devnet) | top-level ix 2, tx v0, Memo = `selftest-2026-11-26-sol-sdk-01` | 0.01 USDC | `2026-11-26/solana-devnet-sdk-binding.json` | VALID, payer-signed (27 checks) |
 
+## x402 market
+
+One paid query to the Solana market (`solana/market`) on devnet, bought with the SDK under a
+policy that only allows PayAI's published fee payers (ALLOWED, SIGNED), with the order ref written
+on-chain as the Memo and a payer-signed receipt.
+
+| Date (UTC) | Network | Transaction | Locator | Amount | Receipt | Verifier |
+|---|---|---|---|---|---|---|
+| 2026-11-27 | Solana devnet | [`3H338d41…Puv2`](https://explorer.solana.com/tx/3H338d41hPn5zTRc8N8G8H84QJiXGCpUFEWizZSCaZ8jyuXAqnZ2XjNZjrdGuBDaqT23S35LqqiBz28TPAMyPuv2?cluster=devnet) | top-level ix 2, tx v0, Memo = `selftest-2026-11-26-sol-market-01` | 0.01 USDC | `2026-11-26/solana-devnet-market-binding.json` | VALID, payer-signed (27 checks) |
+
+Team self-test with test tokens. The market is devnet-only; on mainnet each sale would be income.
