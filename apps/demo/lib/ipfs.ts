@@ -100,10 +100,13 @@ export type Fetched =
 export async function fetchCid(cid: string, opts: { gateways?: readonly string[]; timeoutMs?: number; fetchImpl?: typeof fetch } = {}): Promise<Fetched> {
   const { gateways = GATEWAYS, timeoutMs = 15000, fetchImpl = fetch } = opts;
   const attempts: Attempt[] = [];
+  // Only a well-formed CID reaches a URL, and only as one encoded path segment of a fixed gateway.
+  if (extractCid(cid) !== cid) return { status: "not-found", attempts };
+  const path = `/ipfs/${encodeURIComponent(cid)}`;
   for (const gateway of gateways) {
     let res: Response;
     try {
-      res = await fetchImpl(`${gateway}/ipfs/${cid}`, { signal: AbortSignal.timeout(timeoutMs), credentials: "omit", referrerPolicy: "no-referrer" });
+      res = await fetchImpl(new URL(path, gateway).toString(), { signal: AbortSignal.timeout(timeoutMs), credentials: "omit", referrerPolicy: "no-referrer" });
     } catch (e) {
       attempts.push({ gateway, status: (e as Error)?.name === "TimeoutError" ? "timeout" : "error" });
       continue;
