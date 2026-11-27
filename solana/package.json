@@ -5,5 +5,7 @@
   "description": "Read-only verifier for Nirium payment bindings on Solana",
   "dependencies": {
     "@solana/kit": "8.6.0"
-  }
+  },
+  "license": "Apache-2.0",
+  "version": "1.0.0"
 }

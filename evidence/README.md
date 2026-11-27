@@ -35,3 +35,14 @@ devnet. The payer's USDC balance was read on-chain before and after each run.
 The ALLOW payment has its own payer-signed receipt, `2026-11-26/solana-devnet-policy-allow-binding.json`,
 VALID. A refused payment leaves nothing on-chain by design: nothing was signed.
 
+## SDK on devnet
+
+`solana/sdk/examples/selftest.mjs` in one run: a seller charging with `x402Serve`, a buyer paying
+with `createX402Fetch` under a rules policy that only allows PayAI's published fee payers (ALLOWED,
+SIGNED), the order ref sent as `X-Nirium-Ref` and written on-chain as the Memo, PayAI settling, and
+a payer-signed receipt from `bindReceipt` checked with `verifyReceipt`.
+
+| Date (UTC) | Network | Transaction | Locator | Amount | Receipt | Verifier |
+|---|---|---|---|---|---|---|
+| 2026-11-27 | Solana devnet | [`hfwT3Fqp…Bn7`](https://explorer.solana.com/tx/hfwT3FqpmG5qfA2GkBVT2EbEHfjoFLidwrXPwSm1M6vMmT71K4M24q3VS4zXmCVbPPY1NAWA7JqLL7Ma8asBAn7?cluster=devnet) | top-level ix 2, tx v0, Memo = `selftest-2026-11-26-sol-sdk-01` | 0.01 USDC | `2026-11-26/solana-devnet-sdk-binding.json` | VALID, payer-signed (27 checks) |
+
