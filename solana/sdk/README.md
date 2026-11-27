@@ -32,7 +32,7 @@ does not prove delivery. Format: `../../docs/payment-binding-v1.md`.
 ## Tests
 
 ```bash
-npm ci && npm test   # 7 tests
+npm ci && npm test   # 8 tests
 ```
 
 The pay/charge loop runs offline: a fake RPC answers the mint, the payTo's token account and the

@@ -18,6 +18,15 @@ import { address as toAddress } from "@solana/kit";
 import { associatedTokenAddress } from "nirium-solana-policy";
 import { getNetwork, dollarsToAtomic, rpcCall, PAYAI_FACILITATOR, REF_RE, TOKEN_PROGRAM } from "./networks.mjs";
 
+// Linear time. A `/\/+$/` replace is polynomial on input made of many slashes (CodeQL
+// js/polynomial-redos); the URL comes from config, but there is no reason to keep the risk.
+export function trimTrailingSlashes(url) {
+  let s = String(url);
+  let end = s.length;
+  while (end > 0 && s.charCodeAt(end - 1) === 47) end--;
+  return s.slice(0, end);
+}
+
 /**
  * @param {object} config
  * @param {string} config.payTo  wallet that receives the USDC (its USDC token account must exist)
@@ -34,7 +43,7 @@ export function x402Serve(config) {
   if (entries.length === 0) throw new Error("x402Serve: `routes` is empty; nothing would ever be charged for.");
   const network = config.network || "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1";
   const net = getNetwork(network);
-  const facilitatorUrl = (config.facilitatorUrl || PAYAI_FACILITATOR).replace(/\/+$/, "");
+  const facilitatorUrl = trimTrailingSlashes(config.facilitatorUrl || PAYAI_FACILITATOR);
   const rpcUrl = config.rpcUrl || net.rpc;
 
   const routes = {};
