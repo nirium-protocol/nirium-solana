@@ -62,7 +62,7 @@ jobs:
         run: |
           (cd solana && npm ci --no-audit --no-fund)
           (cd apps/demo && npm ci --no-audit --no-fund)
-      - name: Explorer logic and the CID path (12 tests, no network)
+      - name: Explorer logic, the CID path and the drawing (14 tests, no network)
         working-directory: apps/demo
         run: npm test
       - name: Build (type check and browser bundle)

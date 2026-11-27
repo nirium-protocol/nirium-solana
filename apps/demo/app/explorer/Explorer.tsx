@@ -12,10 +12,12 @@ import { fetchCid, type Attempt } from "@/lib/ipfs.ts";
 import { classify, classifyDoc, verifyReceipt, checkOffline, isChainCheck, reasonKey, FOREIGN_URL, type Verdict } from "@/lib/receipt.ts";
 import { DEVNET, MAINNET, NETWORKS, cleanRpcUrl, explorerTxUrl, formatUnits, lookupTransaction, rpcFailureOf, type RpcFailure, type TxView } from "@/lib/chain.ts";
 import type { Check } from "nirium-solana/verify";
+import { links, edit, cachingFetch, withFetch, type Edit } from "@/lib/mechanism.ts";
+import { Mechanism } from "./Mechanism";
 
 type Source = { cid: string; gateway: string; cidCheck: boolean | null };
 type Result =
-  | { kind: "receipt"; network: string; verdict: Verdict; source: Source | null; doc: Record<string, any> }
+  | { kind: "receipt"; network: string; verdict: Verdict; source: Source | null; original: Record<string, any>; doc: Record<string, any>; tx: TxView | null; edits: Edit[] }
   | { kind: "partial"; checks: Check[]; source: Source | null }
   | { kind: "tx"; found: TxView[]; mainnetSkipped: boolean; error: RpcFailure | null }
   | { kind: "foreign"; family: "stellar" | "evm"; cid: string | null }
@@ -35,28 +37,56 @@ export function Explorer() {
   const [result, setResult] = useState<Result | null>(null);
   const [dragging, setDragging] = useState(false);
   const resultRef = useRef<HTMLElement>(null);
+  const fetchRef = useRef<typeof fetch | null>(null);
+  const [rechecking, setRechecking] = useState(false);
   const rpcUrl = rpcText.trim() ? cleanRpcUrl(rpcText) : null;
   const rpcBad = rpcText.trim() !== "" && !rpcUrl;
   const detected = text.trim() ? classify(text) : null;
 
-  async function checkDoc(doc: any, source: Source | null) {
+  async function checkDoc(doc: any, source: Source | null, firstEdit?: Edit) {
     const c = classifyDoc(doc);
     if (c.kind === "foreign") return setResult({ kind: "foreign", family: c.family, cid: source?.cid ?? null });
     if (c.kind !== "receipt") return setResult({ kind: "invalid", reason: c.kind === "invalid" ? c.reason : "not-a-receipt" });
     if (c.network === MAINNET && !rpcUrl) { setRpcOpen(true); return setResult({ kind: "partial", checks: checkOffline(c.doc), source }); }
     setBusy("checking");
     // A custom RPC is only for the network it serves; devnet receipts use the public devnet RPC.
-    const verdict = await verifyReceipt(c.doc, c.network, c.network === MAINNET ? rpcUrl : null);
-    setResult({ kind: "receipt", network: c.network, verdict, source, doc: c.doc });
+    const rpc = c.network === MAINNET ? rpcUrl : null;
+    // One caching fetch per receipt: the edits below re-run the verifier on the answers read here.
+    const f = cachingFetch();
+    fetchRef.current = f;
+    const [verdict, tx] = await withFetch(f, () => Promise.all([
+      verifyReceipt(c.doc, c.network, rpc),
+      lookupTransaction(c.doc.record.payment.tx, c.network, rpc ?? NETWORKS[c.network].rpc).catch(() => null),
+    ]));
+    const base = { kind: "receipt" as const, network: c.network, verdict, source, original: c.doc, doc: c.doc, tx, edits: [] as Edit[] };
+    setResult(base);
+    if (firstEdit) await applyEdits(base, [firstEdit]);
   }
 
-  async function run(input = text) {
+  async function applyEdits(r: Extract<Result, { kind: "receipt" }>, edits: Edit[]) {
+    setRechecking(true);
+    try {
+      const doc = edits.reduce((d, e) => edit(d, e), r.original);
+      const verdict = await withFetch(fetchRef.current ?? fetch, () => verifyReceipt(doc, r.network, r.network === MAINNET ? rpcUrl : null));
+      setResult({ ...r, doc, verdict, edits });
+    } finally {
+      setRechecking(false);
+    }
+  }
+
+  function onEdit(e: Edit | null) {
+    if (result?.kind !== "receipt") return;
+    const edits = e === null ? [] : result.edits.includes(e) ? result.edits.filter((x) => x !== e) : [...result.edits, e];
+    applyEdits(result, edits);
+  }
+
+  async function run(input = text, firstEdit?: Edit) {
     const c = classify(input);
     setResult(null);
     if (c.kind === "invalid") return setResult({ kind: "invalid", reason: c.reason });
     if (c.kind === "foreign") return setResult({ kind: "foreign", family: c.family, cid: null });
     try {
-      if (c.kind === "receipt") return await checkDoc(c.doc, null);
+      if (c.kind === "receipt") return await checkDoc(c.doc, null, firstEdit);
       if (c.kind === "cid") {
         setBusy("fetching");
         const got = await fetchCid(c.cid);
@@ -64,7 +94,7 @@ export function Explorer() {
         if (got.status === "not-found") return setResult({ kind: "not-found", cid: c.cid, attempts: got.attempts });
         let doc: unknown;
         try { doc = JSON.parse(new TextDecoder().decode(got.bytes)); } catch { return setResult({ kind: "invalid", reason: "not-json" }); }
-        return await checkDoc(doc, { cid: c.cid, gateway: got.gateway, cidCheck: got.cidCheck });
+        return await checkDoc(doc, { cid: c.cid, gateway: got.gateway, cidCheck: got.cidCheck }, firstEdit);
       }
       setBusy("checking");
       const found: TxView[] = [];
@@ -98,9 +128,9 @@ export function Explorer() {
     run(content);
   }
 
-  function open(value: string) {
+  function open(value: string, firstEdit?: Edit) {
     setText(value);
-    run(value);
+    run(value, firstEdit);
     resultRef.current?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
   }
 
@@ -132,8 +162,8 @@ export function Explorer() {
         <h2 id="ex-title" className="label">{t.examples}</h2>
         <ul>
           {STORIES.map((s) => (
-            <li key={s.cid}>
-              <button type="button" className="story" onClick={() => open(s.cid)} disabled={!!busy}>
+            <li key={s.title.en}>
+              <button type="button" className="story" onClick={() => open(s.cid, "edit" in s ? s.edit : undefined)} disabled={!!busy}>
                 <span className="story-title">{s.title[lang]}</span>
                 <span className="story-text">{s.text[lang]}</span>
                 <span className="story-meta"><span className="tag">{t.selftest}</span><span className="mono">{short(s.cid)}</span></span>
@@ -145,7 +175,7 @@ export function Explorer() {
 
       <section ref={resultRef} className="result" aria-live="polite" aria-busy={!!busy}>
         {busy && <div className="card working"><span className="spinner" aria-hidden="true" />{busy === "fetching" ? t.fetching : t.checking}</div>}
-        {!busy && result && <ResultView result={result} />}
+        {!busy && result && <ResultView result={result} onEdit={onEdit} rechecking={rechecking} />}
       </section>
     </main>
   );
@@ -162,7 +192,7 @@ function SourceLine({ source }: { source: Source | null }) {
   );
 }
 
-function ResultView({ result }: { result: Result }) {
+function ResultView({ result, onEdit, rechecking }: { result: Result; onEdit: (e: Edit | null) => void; rechecking: boolean }) {
   const { t } = usePrefs();
   if (result.kind === "invalid") return <p className="card note">{t.invalidInput[result.reason]}</p>;
   if (result.kind === "tx") return <TxResult result={result} />;
@@ -196,10 +226,15 @@ function ResultView({ result }: { result: Result }) {
   return (
     <div>
       <SourceLine source={result.source} />
-      <p className={`verdict ${v.status}`}><Mark ok={v.status === "valid"} /> {label} <span className="net">{NETWORKS[result.network].name}</span></p>
-      <p>{lead}</p>
-      <CheckGroup title={t.groupReceipt} checks={v.checks.filter((c) => !isChainCheck(c.name))} />
-      <CheckGroup title={t.groupChain} checks={v.checks.filter((c) => isChainCheck(c.name))} />
+      <p className={`verdict ${v.status}`}><Mark ok={v.status === "valid"} /> {label} <span className="net">{NETWORKS[result.network].name}</span>{result.edits.length > 0 && <span className="net edited">{t.mech.edited}</span>}</p>
+      <p>{result.edits.length ? t.mech.editedLead : lead}</p>
+      <Mechanism links={links(result.doc, result.tx, v.checks)} network={NETWORKS[result.network].name} purpose={result.doc.record?.purpose?.note ?? null}
+        edits={result.edits} onEdit={onEdit} rechecking={rechecking} />
+      <details className="all-checks">
+        <summary>{t.mech.allChecks.replace("{n}", String(v.checks.length))}</summary>
+        <CheckGroup title={t.groupReceipt} checks={v.checks.filter((c) => !isChainCheck(c.name))} />
+        <CheckGroup title={t.groupChain} checks={v.checks.filter((c) => isChainCheck(c.name))} />
+      </details>
     </div>
   );
 }

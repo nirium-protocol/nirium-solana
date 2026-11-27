@@ -9,11 +9,11 @@
   --card: #121212;
   --field: rgba(0, 0, 0, 0.4);
   --text: #ffffff;
-  --muted: #a1a1aa;          /* 7.6:1 on #121212 */
-  --faint: #8b8b93;          /* 5.2:1 on #121212 */
+  --muted: #a1a1aa;          /* 7.3:1 on #121212 */
+  --faint: #8b8b93;          /* 5.5:1 on #121212 */
   --line: rgba(255, 255, 255, 0.06);
   --line-2: rgba(255, 255, 255, 0.12);
-  --accent: #b794ff;         /* pulse-violet, lightened: 7.9:1 on #121212 */
+  --accent: #b794ff;         /* pulse-violet, lightened: 7.8:1 on #121212 */
   --accent-soft: rgba(183, 148, 255, 0.1);
   --pass: #34d399;
   --pass-soft: rgba(52, 211, 153, 0.1);
@@ -33,7 +33,7 @@
   --field: #f4f4f6;
   --text: #18181b;
   --muted: #52525b;          /* 7.7:1 on white */
-  --faint: #63636b;          /* 6.0:1 on white */
+  --faint: #63636b;          /* 6.0:1 on white, 5.7:1 on #f8f9fa */
   --line: rgba(24, 24, 27, 0.08);
   --line-2: rgba(24, 24, 27, 0.14);
   --accent: #5b21b6;
@@ -192,3 +192,52 @@ a.sr:focus-visible { position: fixed; top: 0.5rem; left: 0.5rem; width: auto; he
 .card.note { box-shadow: none; }
 .note.bad { border-color: var(--fail); background: var(--fail-soft); }
 .attempts { list-style: none; padding: 0; margin: 0.5rem 0; font-size: 0.8rem; color: var(--muted); }
+
+/* The mechanism: receipt on the left, chain on the right, one wire per thing that must match. */
+.mech { position: relative; margin: 1.25rem 0 1rem; }
+.mech-heads, .wire-row { display: grid; grid-template-columns: minmax(0, 1fr) clamp(84px, 14vw, 140px) minmax(0, 1fr); align-items: center; }
+.mech-heads p { margin: 0; padding: 1.1rem 1.25rem 0.4rem; }
+.mech-heads .label { margin: 0 0 0.2rem; color: var(--accent); }
+.mech-sub { display: block; font-size: 0.78rem; color: var(--muted); }
+.wires { list-style: none; margin: 0; padding: 0 0 0.75rem; }
+/* The two cards behind the columns. */
+.mech-board { position: relative; }
+.mech-board::before, .mech-board::after { content: ""; position: absolute; top: 0; bottom: 0; width: calc((100% - clamp(84px, 14vw, 140px)) / 2); background: var(--card); border: 1px solid var(--line); border-radius: 1.5rem; box-shadow: var(--shadow); z-index: 0; }
+.mech-board::before { left: 0; }
+.mech-board::after { right: 0; }
+.mech-board > * { position: relative; z-index: 1; }
+.purpose-row .side { margin: 0; }
+.purpose-row .side-value { font-family: var(--font-inter), sans-serif; }
+.purpose-chain { font-size: 0.84rem; color: var(--muted); font-style: italic; }
+.side { padding: 0.55rem 1.25rem; min-width: 0; display: grid; gap: 0.1rem; }
+.side.right { text-align: left; }
+.side-label { font-size: 0.68rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
+.side-value { font-size: 0.9rem; font-weight: 700; overflow-wrap: anywhere; }
+.fail .side-value { color: var(--fail); }
+.wire { position: relative; height: 40px; display: grid; place-items: center; color: var(--pass); }
+.fail .wire { color: var(--fail); }
+.wire svg { position: absolute; inset: 8px 0; width: 100%; height: 24px; overflow: visible; }
+.wire circle { fill: currentColor; }
+.w-line { stroke: currentColor; stroke-width: 2.5; fill: none; stroke-dasharray: 120; stroke-dashoffset: 120; animation: draw 0.5s ease-out forwards; animation-delay: calc(var(--i) * 70ms); }
+.fail .w-line { stroke-dasharray: 5 4; stroke-dashoffset: 0; animation: none; }
+.w-gap { stroke: currentColor; stroke-width: 2.5; fill: none; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.w-badge { position: relative; font-size: 0.66rem; font-weight: 900; letter-spacing: 0.14em; background: var(--bg); border: 1px solid currentColor; border-radius: 999px; padding: 0.1rem 0.5rem; }
+.wire-why { grid-column: 1 / -1; margin: 0 1.25rem 0.5rem; padding: 0.5rem 0.75rem; border-radius: 0.75rem; background: var(--fail-soft); color: var(--fail); font-size: 0.84rem; font-weight: 600; }
+.edits { border: 1px dashed var(--line-2); border-radius: 1.25rem; padding: 1rem 1.25rem; margin: 1rem 0 0; background: var(--bg); }
+.edits legend { padding: 0 0.4rem; margin: 0; }
+.edits .hint { margin: 0 0 0.75rem; }
+.edit-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.small-btn { min-height: 44px; padding: 0 1rem; font-size: 0.68rem; }
+.small-btn[aria-pressed="true"] { border-color: var(--fail); color: var(--fail); background: var(--fail-soft); }
+.net.edited { color: var(--fail); margin-left: 0.4rem; }
+.all-checks { margin-top: 1rem; }
+.all-checks summary { cursor: pointer; font-weight: 800; font-size: 0.85rem; min-height: 40px; display: flex; align-items: center; color: var(--muted); }
+@media (max-width: 640px) {
+  .mech-board::before, .mech-board::after, .mech-heads { display: none; }
+  .purpose-row { margin-bottom: 0.6rem; }
+  .wires { display: grid; gap: 0.6rem; padding: 0; }
+  .wire-row { grid-template-columns: 1fr; background: var(--card); border: 1px solid var(--line); border-radius: 1.1rem; padding: 0.4rem 0; }
+  .wire { height: 34px; }
+  .wire svg { inset: 5px auto; width: 24px; height: 24px; left: 50%; transform: translateX(-50%) rotate(90deg); }
+}
