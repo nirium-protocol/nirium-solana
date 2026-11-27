@@ -24,7 +24,7 @@ Network conditions of a Solana cluster for $0.01 per query, paid with x402.
 npm ci
 PAY_TO=<wallet> node server.mjs                                             # port 4023
 NIRIUM_PAYER_KEYPAIR=<path> node buy.mjs --payto <wallet> --ref order-1     # buys one query, writes a receipt
-npm test                                                                    # 3 tests, offline
+npm test                                                                    # 4 tests, offline
 ```
 
 `buy.mjs` uses the SDK with a policy (only PayAI's published fee payers allowed), so the buyer only

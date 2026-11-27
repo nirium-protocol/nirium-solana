@@ -9,7 +9,7 @@ import { generateKeyPairSigner } from "@solana/kit";
 import { createX402Fetch, settlementOf, DEVNET } from "nirium-solana";
 import { associatedTokenAddress } from "nirium-solana/policy";
 import { summarize } from "../data.mjs";
-import { createMarketApp } from "../server.mjs";
+import { createMarketApp, networkNote } from "../server.mjs";
 
 const USDC = "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
 const TOKEN = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
@@ -80,4 +80,21 @@ test("info is free, the data is paid, and a paid query returns the network condi
     assert.equal(settled, 1);
     assert.ok(settlementOf(res));
   } finally { srv.close(); fac.close(); rpc.close(); }
+});
+
+test("the bare URL describes the market, and the network note tells the truth on each network", async () => {
+  const app = createMarketApp({ payTo: "4xdH6PvKDqntiHqFea5x6XQpJ4wtgrK5qS42nu7KQZt", network: DEVNET });
+  const srv = await new Promise((ok) => { const s = app.listen(0, () => ok(s)); });
+  try {
+    const base = `http://127.0.0.1:${srv.address().port}`;
+    const root = await (await fetch(base + "/")).json();
+    assert.equal(root.routes.paid, "/v1/market");
+    assert.equal(root.routes.info, "/v1/market/info");
+    assert.equal(root.verifyReceipts, "https://solana.nirium.xyz");
+    assert.equal(root.note, "Test network: test tokens only.");
+    const info = await (await fetch(base + "/v1/market/info")).json();
+    assert.ok(info.notes.includes("Test network: test tokens only."));
+  } finally { srv.close(); }
+  assert.match(networkNote({ mainnet: true }), /^Mainnet: real USDC/);
+  assert.equal(networkNote({ mainnet: false }), "Test network: test tokens only.");
 });

@@ -33,7 +33,7 @@ jobs:
       - name: Library (pay, charge, receipts; 8 tests, one reads the public devnet RPC)
         working-directory: solana
         run: npm run test:sdk
-      - name: x402 market (3 tests, no network)
+      - name: x402 market (4 tests, no network)
         working-directory: solana/market
         run: npm test
       - name: Verifier against real transactions (21 cases, public RPC)

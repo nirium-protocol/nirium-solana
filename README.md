@@ -87,7 +87,7 @@ const receipt = await bindReceipt({ tx: settlementOf(res).transaction, network: 
 | Verifier, 21 cases against real transactions | `cd solana && npm ci && node test-live.mjs` | public mainnet and devnet RPC |
 | Pre-sign policy, 38 tests | `cd solana && npm ci && npm run test:policy` | none |
 | Library, 8 tests | `cd solana && npm ci && npm run test:sdk` | one test reads the public devnet RPC |
-| Market, 3 tests | `cd solana && npm ci && cd market && npm ci && npm test` | none |
+| Market, 4 tests | `cd solana && npm ci && cd market && npm ci && npm test` | none |
 
 CI runs all of them on every pull request. The verifier fixtures point at third-party payments
 and are labeled as such: they test the verifier, they are not usage of this project.
