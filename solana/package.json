@@ -1,6 +1,6 @@
 {
   "name": "nirium-solana",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Pay and charge with x402 on Solana, refuse a payment before it is signed, and keep a payer-signed receipt bound to the exact SPL transfer",
   "type": "module",
   "license": "Apache-2.0",
